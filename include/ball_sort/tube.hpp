@@ -8,15 +8,19 @@ class Tube {
  public:
     Tube(std::string balls);
 
-    bool is_empty();
-    bool is_full();
-    bool has_balls();
-    char get_top_ball();
+    auto operator==(const Tube &other) const -> bool;
 
-    friend struct std::hash<Puzzle>;
+    auto is_empty() const -> bool;
+    auto is_full() const -> bool;
+    auto is_solved() const -> bool;
+    auto get_balls() const -> std::string;
+    auto get_top_ball() const -> char;
+    auto get_serialised_balls() const -> std::string;
+    auto take_top_ball() -> char;
+    auto place_ball(char ball) -> void;
+
+    static const size_t MAX_CAPACITY{4};
 
  private:
-    size_t MAX_CAPACITY{4};
-
     std::string balls;
 };
