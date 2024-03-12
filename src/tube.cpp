@@ -3,7 +3,7 @@
 #include <string>
 #include <unordered_set>
 
-Tube::Tube(std::string balls) : balls{balls} {}
+Tube::Tube(const std::string balls) : balls{balls} {}
 
 auto Tube::operator==(const Tube &other) const -> bool {
     return balls == other.balls;
@@ -17,21 +17,17 @@ auto Tube::is_full() const -> bool {
     return balls.size() == MAX_CAPACITY;
 }
 
-auto Tube::is_solved() const -> bool {
-    if (is_empty()) {
-        return true;
-    }
-
-    if (balls.size() < MAX_CAPACITY) {
-        return false;
-    }
-
+auto Tube::is_same_colour() const -> bool {
     std::unordered_set<char> ball_colours{};
-    for (char ball : balls) {
+    for (const char ball : balls) {
         ball_colours.insert(ball);
     }
 
     return ball_colours.size() == 1;
+}
+
+auto Tube::is_solved() const -> bool {
+    return is_full() && is_same_colour();
 }
 
 auto Tube::get_balls() const -> std::string {
@@ -60,7 +56,7 @@ auto Tube::take_top_ball() -> char {
 auto Tube::place_ball(char ball) -> void {
     if (is_full()) {
         std::cout << "Cannot place ball " << ball << " into tube "
-                  << (*this).balls << '\n';
+                  << this->balls << '\n';
         return;
     }
 

@@ -4,12 +4,15 @@
 #include <deque>
 #include <iostream>
 #include <sstream>
+#include <thread>
 #include <unordered_map>
 
 Puzzle::Puzzle(std::vector<std::string> tube_strings) {
-    for (auto tube_string : tube_strings) {
+    for (const auto &tube_string : tube_strings) {
         tubes.push_back(Tube{tube_string});
     }
+
+    initial_state = tubes;
 
     if (!is_valid_puzzle()) {
         std::cout << "Invalid puzzle" << '\n';
@@ -23,7 +26,7 @@ Puzzle::Puzzle(std::string number_sequence) {
     std::string tube_string{};
 
     while (number_stream >> number) {
-        tube_string.push_back('A' - 1 + number);
+        tube_string.push_back(static_cast<char>('A' - 1 + number));
         if (tube_string.size() == 4) {
             tubes.push_back(Tube{tube_string});
             tube_string.clear();
@@ -31,6 +34,8 @@ Puzzle::Puzzle(std::string number_sequence) {
     }
     tubes.push_back(Tube{""});
     tubes.push_back(Tube{""});
+
+    initial_state = tubes;
 
     if (!is_valid_puzzle()) {
         std::cout << "Invalid puzzle" << '\n';
@@ -40,13 +45,14 @@ Puzzle::Puzzle(std::string number_sequence) {
 
 auto Puzzle::is_valid_puzzle() const -> bool {
     std::unordered_map<char, size_t> ball_colour_tally{};
-    for (Tube tube : tubes) {
-        for (char ball : tube.get_balls()) {
+
+    for (const Tube &tube : tubes) {
+        for (const char ball : tube.get_balls()) {
             ball_colour_tally[ball]++;
         }
     }
 
-    for (auto tally : ball_colour_tally) {
+    for (const auto tally : ball_colour_tally) {
         bool has_balls_to_fit_tube = tally.second == Tube::MAX_CAPACITY;
         if (!has_balls_to_fit_tube) return false;
     }
@@ -58,10 +64,9 @@ auto Puzzle::is_valid_puzzle() const -> bool {
 }
 
 auto Puzzle::is_solved() const -> bool {
-    for (auto tube : tubes) {
-        if (!tube.is_solved()) {
-            return false;
-        }
+    for (const Tube &tube : tubes) {
+        if (tube.is_empty()) continue;
+        if (!tube.is_solved()) return false;
     }
     return true;
 }
@@ -73,7 +78,7 @@ auto Puzzle::is_novel_puzzle_state() const -> bool {
 auto Puzzle::get_serialised_tubes() const -> std::string {
     std::string serialised_tubes{};
 
-    for (auto tube : tubes) {
+    for (const Tube &tube : tubes) {
         serialised_tubes.append(tube.get_serialised_balls());
     }
 
@@ -83,18 +88,20 @@ auto Puzzle::get_serialised_tubes() const -> std::string {
 auto Puzzle::get_moves() const -> MoveDeque {
     std::deque<Move> legal_moves{};
 
-    for (int o{0}; o < tubes.size(); ++o) {
-        auto &origin{tubes.at(o)};
+    for (size_t o{0}; o < tubes.size(); ++o) {
+        const Tube &origin{tubes.at(o)};
 
         bool is_viable_origin{!origin.is_empty() && !origin.is_solved()};
 
         if (is_viable_origin) {
-            for (int d{0}; d < tubes.size(); ++d) {
-                auto &destination{tubes.at(d)};
+            for (size_t d{0}; d < tubes.size(); ++d) {
+                const Tube &destination{tubes.at(d)};
 
                 bool is_same_tube = o == d;
+                bool is_useless_move =
+                    origin.is_same_colour() && destination.is_empty();
 
-                if (is_same_tube || destination.is_full()) {
+                if (is_same_tube || destination.is_full() || is_useless_move) {
                     continue;
                 }
 
@@ -117,8 +124,9 @@ auto Puzzle::get_moves() const -> MoveDeque {
 auto Puzzle::do_move(Move move) -> void {
     char ball = tubes.at(move.origin).take_top_ball();
     tubes.at(move.destination).place_ball(ball);
-    history.push_back(move);
+}
 
+auto Puzzle::undo_if_loop() -> void {
     if (!is_novel_puzzle_state()) {
         undo_move();
     } else {
@@ -127,7 +135,7 @@ auto Puzzle::do_move(Move move) -> void {
 }
 
 auto Puzzle::undo_move() -> void {
-    auto last_move = history.back();
+    Move last_move = history.back();
     char ball = tubes.at(last_move.destination).take_top_ball();
     tubes.at(last_move.origin).place_ball(ball);
     excluded_moves.insert(last_move);
@@ -135,14 +143,12 @@ auto Puzzle::undo_move() -> void {
 }
 
 auto Puzzle::solve() -> void {
-    if (!is_valid_puzzle()) {
-        std::cout << "Invalid puzzle" << '\n';
-        exit(1);
-    }
+    history = {};
+    tubes = initial_state;
+
+    print_tubes();
 
     while (!is_solved()) {
-        print_tubes();
-
         MoveDeque legal_moves = get_moves();
 
         bool is_dead_end{legal_moves.size() == 0 && history.size() > 0};
@@ -155,12 +161,13 @@ auto Puzzle::solve() -> void {
             undo_move();
             continue;
         } else {
-            auto move = legal_moves.front();
+            Move move = legal_moves.front();
             do_move(move);
+            history.push_back(move);
+            undo_if_loop();
+            print_tubes();
         }
     }
-
-    print_tubes();
 
     std::cout << "Solved in " << history.size() << " moves." << '\n';
 }
@@ -169,7 +176,7 @@ auto Puzzle::print_tubes() const -> void {
     std::system("clear");
 
     for (size_t i{0}; i < Tube::MAX_CAPACITY; ++i) {
-        for (Tube tube : tubes) {
+        for (const Tube &tube : tubes) {
             size_t ball_index = Tube::MAX_CAPACITY - 1 - i;
             if (tube.get_balls().size() > ball_index) {
                 std::cout << tube.get_balls().at(ball_index) << " ";
@@ -180,4 +187,23 @@ auto Puzzle::print_tubes() const -> void {
         std::cout << '\n';
     }
     std::cout << '\n';
+}
+
+auto Puzzle::play_solution() -> void {
+    if (history.size() == 0) solve();
+
+    tubes = initial_state;
+
+    for (const Move &move : history) {
+        print_tubes();
+        std::cin.get();
+        do_move(move);
+    }
+
+    print_tubes();
+}
+
+auto Puzzle::pause() const -> void {
+    std::this_thread::sleep_for(
+        std::chrono::milliseconds(1000 / MOVES_PER_SECOND));
 }

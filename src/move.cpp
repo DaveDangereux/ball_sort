@@ -1,8 +1,8 @@
 #include "ball_sort/move.hpp"
 
 Move::Move(const std::string serialised_tubes,
-           const int origin,
-           const int destination)
+           const size_t origin,
+           const size_t destination)
     : serialised_tubes{serialised_tubes}, origin{origin},
       destination{destination} {}
 
