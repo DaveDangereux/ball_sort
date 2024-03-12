@@ -22,14 +22,19 @@ class Puzzle {
     auto get_serialised_tubes() const -> std::string;
     auto get_moves() const -> MoveDeque;
     auto do_move(Move move) -> void;
+    auto undo_if_loop() -> void;
     auto undo_move() -> void;
     auto solve() -> void;
     auto print_tubes() const -> void;
+    auto play_solution() -> void;
+    auto pause() const -> void;
 
     MoveVector history;
     MoveSet excluded_moves;
     SerialisedTubesSet previous_puzzle_states;
+    const size_t MOVES_PER_SECOND{2};
 
  private:
+    std::vector<Tube> initial_state;
     std::vector<Tube> tubes;
 };

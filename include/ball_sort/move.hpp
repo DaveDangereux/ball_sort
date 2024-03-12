@@ -4,14 +4,14 @@
 
 struct Move {
     Move(const std::string serialised_tubes,
-         const int origin,
-         const int destination);
+         const size_t origin,
+         const size_t destination);
 
     auto operator==(const Move &other) const -> bool;
 
     std::string serialised_tubes;
-    int origin;
-    int destination;
+    size_t origin;
+    size_t destination;
 };
 
 template <>
