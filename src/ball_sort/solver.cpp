@@ -1,4 +1,4 @@
-#include "ball_sort/puzzle.hpp"
+#include "ball_sort/solver.hpp"
 #include "ball_sort/move.hpp"
 #include "ball_sort/tube.hpp"
 #include <deque>
@@ -6,7 +6,7 @@
 #include <sstream>
 #include <unordered_map>
 
-Puzzle::Puzzle(std::vector<std::string> ball_strings) {
+Solver::Solver(std::vector<std::string> ball_strings) {
     for (const auto &ball_string : ball_strings) {
         tubes.push_back(Tube{ball_string});
     }
@@ -16,7 +16,7 @@ Puzzle::Puzzle(std::vector<std::string> ball_strings) {
     validate_puzzle();
 }
 
-Puzzle::Puzzle(std::string numeric_ball_string) {
+Solver::Solver(std::string numeric_ball_string) {
     std::stringstream number_stream{numeric_ball_string};
     int number{};
 
@@ -38,7 +38,7 @@ Puzzle::Puzzle(std::string numeric_ball_string) {
     validate_puzzle();
 }
 
-auto Puzzle::solve() -> void {
+auto Solver::solve() -> void {
     history.clear();
     tubes = initial_state;
 
@@ -68,7 +68,7 @@ auto Puzzle::solve() -> void {
     std::cout << "Solved in " << history.size() << " moves." << '\n';
 }
 
-auto Puzzle::get_moves() const -> std::deque<Move> {
+auto Solver::get_moves() const -> std::deque<Move> {
     std::deque<Move> legal_moves{};
 
     for (size_t o{0}; o < tubes.size(); ++o) {
@@ -84,7 +84,7 @@ auto Puzzle::get_moves() const -> std::deque<Move> {
     return legal_moves;
 }
 
-auto Puzzle::is_valid_move(const Move &move) const -> bool {
+auto Solver::is_valid_move(const Move &move) const -> bool {
     const Tube &origin{tubes.at(move.origin)};
     const Tube &destination{tubes.at(move.destination)};
 
@@ -99,12 +99,12 @@ auto Puzzle::is_valid_move(const Move &move) const -> bool {
            destination.is_empty();
 }
 
-auto Puzzle::do_move(const Move &move) -> void {
+auto Solver::do_move(const Move &move) -> void {
     char ball = tubes.at(move.origin).take_top_ball();
     tubes.at(move.destination).place_ball(ball);
 }
 
-auto Puzzle::undo_move() -> void {
+auto Solver::undo_move() -> void {
     Move &last_move = history.back();
     char ball{tubes.at(last_move.destination).take_top_ball()};
     tubes.at(last_move.origin).place_ball(ball);
@@ -112,7 +112,7 @@ auto Puzzle::undo_move() -> void {
     history.pop_back();
 }
 
-auto Puzzle::undo_if_loop() -> void {
+auto Solver::undo_if_loop() -> void {
     if (!is_novel_puzzle_state()) {
         undo_move();
     } else {
@@ -120,7 +120,7 @@ auto Puzzle::undo_if_loop() -> void {
     }
 }
 
-auto Puzzle::validate_puzzle() const -> void {
+auto Solver::validate_puzzle() const -> void {
     std::unordered_map<char, size_t> ball_tally{get_ball_tally()};
 
     bool is_valid_puzzle{true};
@@ -139,7 +139,7 @@ auto Puzzle::validate_puzzle() const -> void {
     }
 }
 
-auto Puzzle::get_ball_tally() const -> std::unordered_map<char, size_t> {
+auto Solver::get_ball_tally() const -> std::unordered_map<char, size_t> {
     std::unordered_map<char, size_t> ball_tally{};
 
     for (const Tube &tube : tubes) {
@@ -151,7 +151,7 @@ auto Puzzle::get_ball_tally() const -> std::unordered_map<char, size_t> {
     return ball_tally;
 }
 
-auto Puzzle::get_serialised_tubes() const -> std::string {
+auto Solver::get_serialised_tubes() const -> std::string {
     std::string serialised_tubes{};
 
     for (const Tube &tube : tubes) {
@@ -161,7 +161,7 @@ auto Puzzle::get_serialised_tubes() const -> std::string {
     return serialised_tubes;
 }
 
-auto Puzzle::is_solved() const -> bool {
+auto Solver::is_solved() const -> bool {
     for (const Tube &tube : tubes) {
         if (tube.is_empty()) continue;
         if (!tube.is_solved()) return false;
@@ -170,11 +170,11 @@ auto Puzzle::is_solved() const -> bool {
     return true;
 }
 
-auto Puzzle::is_novel_puzzle_state() const -> bool {
+auto Solver::is_novel_puzzle_state() const -> bool {
     return !previous_puzzle_states.contains(get_serialised_tubes());
 }
 
-auto Puzzle::print_tubes() const -> void {
+auto Solver::print_tubes() const -> void {
     std::system("clear");
 
     for (size_t i{0}; i < Tube::MAX_CAPACITY; ++i) {
@@ -191,7 +191,7 @@ auto Puzzle::print_tubes() const -> void {
     std::cout << '\n';
 }
 
-auto Puzzle::play_solution() -> void {
+auto Solver::play_solution() -> void {
     if (history.size() == 0) solve();
 
     tubes = initial_state;

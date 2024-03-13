@@ -6,10 +6,10 @@
 #include <string>
 #include <unordered_set>
 
-class Puzzle {
+class Solver {
  public:
-    Puzzle(std::vector<std::string> tube_strings);
-    Puzzle(std::string number_sequence);
+    Solver(std::vector<std::string> tube_strings);
+    Solver(std::string number_sequence);
 
     auto solve() -> void;
     auto get_moves() const -> std::deque<Move>;
