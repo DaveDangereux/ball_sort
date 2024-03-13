@@ -1,4 +1,4 @@
-file(GLOB SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+file(GLOB SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/**/*.cpp)
 
 add_executable(${PROJECT_NAME} app.cpp ${SOURCE_FILES})
 
