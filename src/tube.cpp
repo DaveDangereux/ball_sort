@@ -17,7 +17,7 @@ auto Tube::is_full() const -> bool {
     return balls.size() == MAX_CAPACITY;
 }
 
-auto Tube::is_same_colour() const -> bool {
+auto Tube::is_one_colour() const -> bool {
     std::unordered_set<char> ball_colours{};
     for (const char ball : balls) {
         ball_colours.insert(ball);
@@ -27,7 +27,7 @@ auto Tube::is_same_colour() const -> bool {
 }
 
 auto Tube::is_solved() const -> bool {
-    return is_full() && is_same_colour();
+    return is_full() && is_one_colour();
 }
 
 auto Tube::get_balls() const -> std::string {
@@ -35,7 +35,11 @@ auto Tube::get_balls() const -> std::string {
 }
 
 auto Tube::get_top_ball() const -> char {
-    return balls.back();
+    if (balls.size() > 0) {
+        return balls.back();
+    } else {
+        return ' ';
+    }
 }
 
 auto Tube::get_serialised_balls() const -> std::string {

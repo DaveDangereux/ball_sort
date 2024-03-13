@@ -12,7 +12,7 @@ class Tube {
 
     auto is_empty() const -> bool;
     auto is_full() const -> bool;
-    auto is_same_colour() const -> bool;
+    auto is_one_colour() const -> bool;
     auto is_solved() const -> bool;
     auto get_balls() const -> std::string;
     auto get_top_ball() const -> char;
