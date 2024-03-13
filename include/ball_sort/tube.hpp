@@ -2,7 +2,7 @@
 
 #include <string>
 
-class Puzzle;
+class Solver;
 
 class Tube {
  public:
