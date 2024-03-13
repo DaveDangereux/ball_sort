@@ -115,7 +115,11 @@ auto Solver::is_novel_puzzle_state(const Puzzle &puzzle) const -> bool
 
 auto Solver::print_puzzle(const Puzzle &puzzle) const -> void
 {
+#ifdef _WIN32
+    std::system("cls");
+#else
     std::system("clear");
+#endif
 
     for (size_t i{0}; i < Tube::MAX_CAPACITY; ++i) {
         for (const Tube &tube : puzzle.get_tubes()) {
