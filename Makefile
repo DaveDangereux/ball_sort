@@ -2,7 +2,7 @@ PROJECT_NAME := ball_sort
 TEST_EXECUTABLE := ball_sort_tests
 
 GOD_MODE_WIDTH := 50%
-TEST_PANE_HEIGHT := 60%
+TEST_PANE_HEIGHT := 75%
 CMAKE_PANE_WIDTH := 20%
 
 default:

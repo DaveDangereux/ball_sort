@@ -1,7 +1,6 @@
 #include "ball_sort/solver.hpp"
 #include "ball_sort/move.hpp"
 #include "ball_sort/tube.hpp"
-#include <deque>
 #include <iostream>
 
 auto Solver::solve(Puzzle &puzzle) -> void
@@ -10,64 +9,72 @@ auto Solver::solve(Puzzle &puzzle) -> void
 
     print_puzzle(puzzle);
 
+    std::unordered_set<Move> excluded_moves{};
+
     while (!puzzle.is_solved()) {
-        std::deque<Move> moves{generate_moves(puzzle)};
+        std::vector<Move> legal_moves{puzzle.get_legal_moves()};
+        std::vector<Move> filtered_moves{
+            purge_redundant_moves(legal_moves, excluded_moves, puzzle)};
+
         size_t history_length{puzzle.get_history().size()};
 
-        bool is_dead_end{moves.size() == 0 && history_length > 0};
-        bool is_unsolvable{moves.size() == 0 && history_length == 0};
-
+        bool is_dead_end{filtered_moves.size() == 0 && history_length > 0};
         if (is_dead_end) {
+            excluded_moves.insert(puzzle.get_history().back());
             puzzle.undo_move();
             continue;
-        } else if (is_unsolvable) {
+        };
+
+        bool is_unsolvable{filtered_moves.size() == 0 && history_length == 0};
+        if (is_unsolvable) {
             std::cout << "Unsolvable" << '\n';
             return;
-        } else {
-            Move move{moves.front()};
-            puzzle.do_move(move);
-            print_puzzle(puzzle);
         }
+
+        Move move{pick_move(filtered_moves)};
+
+        puzzle.do_move(move.origin, move.destination);
+
+        if (!puzzle.is_novel_puzzle_state()) {
+            excluded_moves.insert(move);
+            puzzle.undo_move();
+        }
+
+        print_puzzle(puzzle);
     }
 
     std::cout << "Solved in " << puzzle.get_history().size() << " moves."
               << '\n';
 }
 
-auto Solver::generate_moves(const Puzzle &puzzle) const -> std::deque<Move>
+auto Solver::purge_redundant_moves(
+    const std::vector<Move> &legal_moves,
+    const std::unordered_set<Move> &excluded_moves,
+    const Puzzle &puzzle) -> std::vector<Move>
 {
-    std::deque<Move> moves{};
+    std::vector<Move> potential_moves{};
+    const std::vector<Tube> &tubes{puzzle.get_tubes()};
 
-    for (size_t o{0}; o < puzzle.get_tubes().size(); ++o) {
-        for (size_t d{0}; d < puzzle.get_tubes().size(); ++d) {
-            Move move{puzzle.get_serialised_tubes(), o, d};
+    for (const Move &move : legal_moves) {
+        const Tube &origin{tubes.at(move.origin)};
+        const Tube &destination{tubes.at(move.destination)};
 
-            if (is_valid_move(move, puzzle)) {
-                moves.push_back(move);
-            }
-        }
+        if (origin.is_solved()) continue;
+        if (origin.is_one_colour() && destination.is_empty()) continue;
+        if (excluded_moves.contains(move)) continue;
+
+        potential_moves.push_back(move);
     }
 
-    return moves;
+    return potential_moves;
 }
 
-auto Solver::is_valid_move(const Move &move, const Puzzle &puzzle) const -> bool
+auto Solver::pick_move(const std::vector<Move> &filtered_moves) -> Move
 {
-    const Tube origin{puzzle.get_tubes().at(move.origin)};
-    const Tube destination{puzzle.get_tubes().at(move.destination)};
-
-    if (move.origin == move.destination) return false;
-    if (origin.is_empty()) return false;
-    if (origin.is_solved()) return false;
-    if (destination.is_full()) return false;
-    if (origin.is_one_colour() && destination.is_empty()) return false;
-    if (puzzle.get_excluded_moves().contains(move)) return false;
-
-    return origin.get_top_ball() == destination.get_top_ball() ||
-           destination.is_empty();
+    return filtered_moves.front();
 }
 
-auto Solver::print_puzzle(const Puzzle &puzzle) const -> void
+auto Solver::print_puzzle(const Puzzle &puzzle) -> void
 {
 #ifdef _WIN32
     std::system("cls");
@@ -92,13 +99,13 @@ auto Solver::print_puzzle(const Puzzle &puzzle) const -> void
 auto Solver::play_solution(Puzzle &puzzle) -> void
 {
     if (puzzle.get_history().size() == 0) solve(puzzle);
-
+    const std::vector<Move> solution{puzzle.get_history()};
     puzzle.reset();
 
-    for (const Move &move : puzzle.get_history()) {
+    for (const Move &move : solution) {
         print_puzzle(puzzle);
         std::cin.get();
-        puzzle.do_move(move);
+        puzzle.do_move(move.origin, move.destination);
     }
 
     print_puzzle(puzzle);
