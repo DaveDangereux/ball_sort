@@ -12,9 +12,8 @@ auto Solver::solve(Puzzle &puzzle) -> void
     std::unordered_set<Move> excluded_moves{};
 
     while (!puzzle.is_solved()) {
-        std::vector<Move> legal_moves{puzzle.get_legal_moves()};
-        std::vector<Move> filtered_moves{
-            purge_redundant_moves(legal_moves, excluded_moves, puzzle)};
+        std::vector<Move> filtered_moves{purge_redundant_moves(
+            puzzle.get_legal_moves(), excluded_moves, puzzle)};
 
         size_t history_length{puzzle.get_history().size()};
 
@@ -33,7 +32,7 @@ auto Solver::solve(Puzzle &puzzle) -> void
 
         Move move{pick_move(filtered_moves)};
 
-        puzzle.do_move(move.origin, move.destination);
+        puzzle.do_move(move.m_origin, move.m_destination);
 
         if (!puzzle.is_novel_puzzle_state()) {
             excluded_moves.insert(move);
@@ -56,8 +55,8 @@ auto Solver::purge_redundant_moves(
     const std::vector<Tube> &tubes{puzzle.get_tubes()};
 
     for (const Move &move : legal_moves) {
-        const Tube &origin{tubes.at(move.origin)};
-        const Tube &destination{tubes.at(move.destination)};
+        const Tube &origin{tubes.at(move.m_origin)};
+        const Tube &destination{tubes.at(move.m_destination)};
 
         if (origin.is_solved()) continue;
         if (origin.is_one_colour() && destination.is_empty()) continue;
@@ -82,10 +81,17 @@ auto Solver::print_puzzle(const Puzzle &puzzle) -> void
     std::system("clear");
 #endif
 
-    for (size_t i{0}; i < Tube::MAX_CAPACITY; ++i) {
+    for (size_t row{1}; row <= Tube::MAX_CAPACITY; ++row) {
         for (const Tube &tube : puzzle.get_tubes()) {
-            size_t ball_index{Tube::MAX_CAPACITY - 1 - i};
-            if (tube.get_balls().size() > ball_index) {
+            // Balls in a vertical tube are represented by a string, where the
+            // left-most char represents the bottom ball. Printing rows
+            // top-to-bottom and counting the top row as 1, the associated
+            // ball_index is MAX_CAPACITY minus the row number.
+            size_t ball_index = Tube::MAX_CAPACITY - row;
+
+            bool has_balls_up_to_this_row =
+                tube.get_balls().size() > ball_index;
+            if (has_balls_up_to_this_row) {
                 std::cout << tube.get_balls().at(ball_index) << " ";
             } else {
                 std::cout << " " << " ";
@@ -105,7 +111,7 @@ auto Solver::play_solution(Puzzle &puzzle) -> void
     for (const Move &move : solution) {
         print_puzzle(puzzle);
         std::cin.get();
-        puzzle.do_move(move.origin, move.destination);
+        puzzle.do_move(move.m_origin, move.m_destination);
     }
 
     print_puzzle(puzzle);

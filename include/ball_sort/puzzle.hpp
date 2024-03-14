@@ -33,7 +33,7 @@ class Puzzle {
 
     const std::vector<Tube> m_initial_state;
     std::vector<Tube> m_tubes;
-    std::vector<Move> m_history;
-    std::unordered_set<std::string> m_previous_puzzle_states;
+    std::vector<Move> m_move_history;
+    std::unordered_set<std::string> m_visited_puzzle_states;
     bool m_is_novel_puzzle_state{true};
 };

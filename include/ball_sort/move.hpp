@@ -3,22 +3,27 @@
 #include <string>
 
 struct Move {
-    Move(const std::string serialised_tubes,
-         const size_t origin,
-         const size_t destination);
+    friend std::hash<Move>;
+
+    Move(const size_t origin,
+         const size_t destination,
+         const std::string serialised_state = "");
 
     auto operator==(const Move &other) const -> bool;
 
-    std::string serialised_tubes;
-    size_t origin;
-    size_t destination;
+    const size_t m_origin;
+    const size_t m_destination;
+
+ private:
+    const std::string m_serialised_state;
 };
 
 template <>
 struct std::hash<Move> {
-    auto operator()(const Move &move) const -> size_t {
-        return std::hash<std::string>()(move.serialised_tubes) ^
-               std::hash<size_t>()(move.origin) ^
-               std::hash<size_t>()(move.destination);
+    auto operator()(const Move &move) const -> size_t
+    {
+        return (std::hash<size_t>()(move.m_origin) << 2) ^
+               std::hash<size_t>()(move.m_destination) ^
+               (std::hash<std::string>()(move.m_serialised_state) << 4);
     }
 };
