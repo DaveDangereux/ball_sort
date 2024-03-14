@@ -23,7 +23,7 @@ auto Tube::is_full() const -> bool
 auto Tube::is_one_colour() const -> bool
 {
     std::unordered_set<char> ball_colours{};
-    for (const char ball : m_balls) {
+    for (const char &ball : m_balls) {
         ball_colours.insert(ball);
     }
 
@@ -69,8 +69,8 @@ auto Tube::take_top_ball() -> char
 auto Tube::place_ball(const char ball) -> void
 {
     if (is_full()) {
-        std::cout << "Cannot place ball " << ball << " into tube "
-                  << this->m_balls << '\n';
+        std::cout << "Cannot place ball " << ball << " into tube " << m_balls
+                  << '\n';
         return;
     }
 
