@@ -1,14 +1,19 @@
 #include "ball_sort/puzzle.hpp"
 #include "ball_sort/tube.hpp"
+#include <iostream>
 #include <sstream>
 
 Puzzle::Puzzle(const std::vector<std::string> letter_strings)
     : m_initial_state{make_tubes(letter_strings)}, m_tubes{m_initial_state}
-{}
+{
+    validate_puzzle();
+}
 
 Puzzle::Puzzle(const std::string number_string)
     : m_initial_state{make_tubes(number_string)}, m_tubes{m_initial_state}
-{}
+{
+    validate_puzzle();
+}
 
 auto Puzzle::make_tubes(const std::vector<std::string> &letter_strings)
     -> std::vector<Tube>
@@ -45,20 +50,28 @@ auto Puzzle::make_tubes(const std::string &number_string) -> std::vector<Tube>
     return tubes;
 }
 
-auto Puzzle::get_tubes() const -> std::vector<Tube>
+auto Puzzle::get_tubes() const -> const std::vector<Tube> &
 {
     return m_tubes;
 }
 
-auto Puzzle::do_move(const size_t origin, const size_t destination) -> void
+auto Puzzle::do_move(const Move move) -> void
 {
-    char ball{m_tubes.at(origin).take_top_ball()};
-    m_tubes.at(destination).place_ball(ball);
+    char ball{m_tubes.at(move.origin).take_top_ball()};
+    m_tubes.at(move.destination).place_ball(ball);
+    m_history.push_back(move);
+
+    if (m_previous_puzzle_states.contains(get_serialised_tubes())) {
+        undo_move();
+    } else {
+        m_previous_puzzle_states.insert(get_serialised_tubes());
+    }
 }
 
 auto Puzzle::reset() -> void
 {
     m_tubes = m_initial_state;
+    m_history.clear();
 }
 
 auto Puzzle::get_ball_tally() const -> std::unordered_map<char, size_t>
@@ -72,11 +85,6 @@ auto Puzzle::get_ball_tally() const -> std::unordered_map<char, size_t>
     }
 
     return ball_tally;
-}
-
-auto Puzzle::get_tube_count() const -> size_t
-{
-    return m_tubes.size();
 }
 
 auto Puzzle::get_serialised_tubes() const -> std::string
@@ -98,4 +106,45 @@ auto Puzzle::is_solved() const -> bool
     }
 
     return true;
+}
+
+auto Puzzle::validate_puzzle() const -> void
+{
+    std::unordered_map<char, size_t> ball_tally{get_ball_tally()};
+
+    bool is_valid_puzzle{true};
+
+    for (const auto &tally : ball_tally) {
+        bool is_wrong_ball_quantity{tally.second != Tube::MAX_CAPACITY};
+        if (is_wrong_ball_quantity) is_valid_puzzle = false;
+    }
+
+    size_t minimum_number_of_tubes{ball_tally.size() + 2};
+    if (m_tubes.size() < minimum_number_of_tubes) is_valid_puzzle = false;
+
+    if (!is_valid_puzzle) {
+        std::cout << "Invalid puzzle" << '\n';
+        exit(1);
+    }
+}
+
+auto Puzzle::get_excluded_moves() const -> const std::unordered_set<Move> &
+{
+    return m_excluded_moves;
+}
+
+auto Puzzle::get_history() const -> const std::vector<Move> &
+{
+    return m_history;
+}
+
+auto Puzzle::undo_move() -> void
+{
+    const Move &last_move{m_history.back()};
+
+    char ball{m_tubes.at(last_move.destination).take_top_ball()};
+    m_tubes.at(last_move.origin).place_ball(ball);
+
+    m_excluded_moves.insert(last_move);
+    m_history.pop_back();
 }
