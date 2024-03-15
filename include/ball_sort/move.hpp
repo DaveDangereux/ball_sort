@@ -7,9 +7,9 @@ struct Move {
 
     Move(const size_t origin,
          const size_t destination,
-         const std::string serialised_state = "");
+         const std::string &serialised_state = "");
 
-    auto operator==(const Move &other) const -> bool;
+    auto operator==(const Move &other) const -> bool = default;
 
     const size_t m_origin;
     const size_t m_destination;

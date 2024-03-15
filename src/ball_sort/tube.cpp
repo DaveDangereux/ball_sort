@@ -3,12 +3,7 @@
 #include <string>
 #include <unordered_set>
 
-Tube::Tube(const std::string balls) : m_balls{balls} {}
-
-auto Tube::operator==(const Tube &other) const -> bool
-{
-    return m_balls == other.m_balls;
-}
+Tube::Tube(const std::string &balls) : m_balls{balls} {}
 
 auto Tube::is_empty() const -> bool
 {
@@ -35,7 +30,7 @@ auto Tube::is_solved() const -> bool
     return is_full() && is_one_colour();
 }
 
-auto Tube::get_balls() const -> std::string
+auto Tube::get_balls() const -> const std::string &
 {
     return m_balls;
 }

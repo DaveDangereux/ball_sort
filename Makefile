@@ -6,7 +6,7 @@ TEST_PANE_HEIGHT := 75%
 CMAKE_PANE_WIDTH := 20%
 
 default:
-	npx nodemon -e cpp,hpp --ignore build --ignore tests -x "clear && make -B build && clear && ./bin/$(PROJECT_NAME) || exit 1"
+	npx nodemon -e cpp,hpp --ignore build --ignore tests -x "clear && cmake -B build && clear && ./bin/$(PROJECT_NAME) || exit 1"
 
 test:
 	npx nodemon -e cpp,hpp --ignore build -x "make build-tests && clear && (cd build && ./bin/$(TEST_EXECUTABLE)) || exit 1"
