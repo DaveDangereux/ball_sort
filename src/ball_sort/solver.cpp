@@ -12,7 +12,7 @@ auto Solver::solve(Puzzle &puzzle) -> void
     std::unordered_set<Move> excluded_moves{};
 
     while (!puzzle.is_solved()) {
-        std::vector<Move> filtered_moves{purge_redundant_moves(
+        const std::vector<Move> &filtered_moves{purge_redundant_moves(
             puzzle.get_legal_moves(), excluded_moves, puzzle)};
 
         size_t history_length{puzzle.get_history().size()};
@@ -62,7 +62,7 @@ auto Solver::purge_redundant_moves(
         if (origin.is_one_colour() && destination.is_empty()) continue;
         if (excluded_moves.contains(move)) continue;
 
-        potential_moves.push_back(move);
+        potential_moves.emplace_back(move);
     }
 
     return potential_moves;
@@ -92,9 +92,9 @@ auto Solver::print_puzzle(const Puzzle &puzzle) -> void
             bool has_balls_up_to_this_row =
                 tube.get_balls().size() > ball_index;
             if (has_balls_up_to_this_row) {
-                std::cout << tube.get_balls().at(ball_index) << " ";
+                std::cout << tube.get_balls().at(ball_index) << ' ';
             } else {
-                std::cout << " " << " ";
+                std::cout << "  ";
             }
         }
         std::cout << '\n';

@@ -3,25 +3,25 @@
 #include <iostream>
 #include <sstream>
 
-Puzzle::Puzzle(const std::vector<std::string> letter_strings)
+Puzzle::Puzzle(const std::vector<std::string> &letter_strings)
     : m_initial_state{make_tubes(letter_strings)}, m_tubes{m_initial_state}
 {
     validate_puzzle();
 }
 
-Puzzle::Puzzle(const std::string number_string)
+Puzzle::Puzzle(const std::string &number_string)
     : m_initial_state{make_tubes(number_string)}, m_tubes{m_initial_state}
 {
     validate_puzzle();
 }
 
-auto Puzzle::make_tubes(const std::vector<std::string> &letter_strings)
-    -> std::vector<Tube>
+constexpr auto Puzzle::make_tubes(
+    const std::vector<std::string> &letter_strings) -> std::vector<Tube>
 {
     std::vector<Tube> tubes{};
 
     for (const auto &ball_string : letter_strings) {
-        tubes.push_back(Tube{ball_string});
+        tubes.emplace_back(ball_string);
     }
 
     return tubes;
@@ -39,13 +39,13 @@ auto Puzzle::make_tubes(const std::string &number_string) -> std::vector<Tube>
     while (number_stream >> number) {
         ball_string.push_back(static_cast<char>('A' - 1 + number));
         if (ball_string.size() == 4) {
-            tubes.push_back(Tube{ball_string});
+            tubes.emplace_back(ball_string);
             ball_string.clear();
         }
     }
 
-    tubes.push_back(Tube{""});
-    tubes.push_back(Tube{""});
+    tubes.emplace_back("");
+    tubes.emplace_back("");
 
     return tubes;
 }
@@ -73,13 +73,13 @@ auto Puzzle::validate_puzzle() const -> void
 auto Puzzle::get_legal_moves() const -> std::vector<Move>
 {
     std::vector<Move> legal_moves{};
-    std::string current_state = get_serialised_state();
+    const std::string &current_state = get_serialised_state();
 
     // Iterates over every combination of origin and destination tube indices
     for (size_t o{0}; o < m_tubes.size(); ++o) {
         for (size_t d{0}; d < m_tubes.size(); ++d) {
             if (is_legal_move(o, d))
-                legal_moves.push_back(Move{o, d, current_state});
+                legal_moves.emplace_back(o, d, current_state);
         }
     }
 
@@ -88,13 +88,13 @@ auto Puzzle::get_legal_moves() const -> std::vector<Move>
 
 auto Puzzle::do_move(const size_t origin, const size_t destination) -> void
 {
-    std::string state_prior_to_move{get_serialised_state()};
-    m_move_history.push_back(Move{origin, destination, state_prior_to_move});
+    const std::string &state_prior_to_move{get_serialised_state()};
+    m_move_history.emplace_back(origin, destination, state_prior_to_move);
 
     char ball{m_tubes.at(origin).take_top_ball()};
     m_tubes.at(destination).place_ball(ball);
 
-    std::string current_state{get_serialised_state()};
+    const std::string &current_state{get_serialised_state()};
 
     if (m_visited_puzzle_states.contains(current_state)) {
         m_is_novel_puzzle_state = false;
@@ -174,7 +174,7 @@ auto Puzzle::get_ball_tally() const -> std::unordered_map<char, size_t>
     return ball_tally;
 }
 
-auto Puzzle::get_serialised_state() const -> std::string
+constexpr auto Puzzle::get_serialised_state() const -> std::string
 {
     std::string serialised_state{};
 
