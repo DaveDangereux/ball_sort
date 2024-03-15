@@ -23,6 +23,9 @@ case "$command" in
 "clean")
 	rm -rf build
 	;;
+*)
+	echo "Unknown command: $1"
+	;;
 esac
 
 exit 0
