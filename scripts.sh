@@ -25,15 +25,19 @@ case "$command" in
 	cmake --build build --target $test_executable
 	;;
 "watch-cmake")
-	npx nodemon -e txt --ignore build -x "clear && ./scripts.sh build-cmake || exit 1"
+	npx nodemon -e txt --ignore ./build -x "./scripts.sh build-cmake || exit 1"
 	;;
 "watch-main")
-	npx nodemon -e cpp,hpp --ignore build -x "clear && ./scripts.sh build-main && ./bin/$project_name || exit 1"
+	npx nodemon -e cpp,hpp --ignore ./build -x "clear && ./scripts.sh build-main && ./bin/$project_name || exit 1"
 	;;
 "watch-tests")
-	npx nodemon -e cpp,hpp --ignore build -x "clear && ./scripts.sh build-tests && ./bin/$test_executable || exit 1"
+	npx nodemon -e cpp,hpp --ignore ./build -x "clear && ./scripts.sh build-tests && ./bin/$test_executable || exit 1"
+	;;
+"clean")
+	rm -rf build
 	;;
 "god-mode")
+	./scripts.sh build-cmake
 	tmux resize-pane -x $god_mode_width
 	tmux split-window -v
 	tmux resize-pane -y $test_pane_height
