@@ -2,8 +2,6 @@
 
 #include <string>
 
-class Solver;
-
 class Tube {
  public:
     Tube(const std::string &balls);
