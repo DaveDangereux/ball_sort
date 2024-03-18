@@ -1,7 +1,11 @@
 #include "ball_sort/tube.hpp"
+#include <ball_sort/exceptions/too_many_balls_exception.hpp>
 #include <string>
 
-Tube::Tube(const std::string &balls) : m_balls{balls} {}
+Tube::Tube(const std::string &balls) : m_balls{balls}
+{
+    if (m_balls.size() > MAX_CAPACITY) throw TooManyBallsException();
+}
 
 auto Tube::is_empty() const -> bool
 {
@@ -60,11 +64,8 @@ auto Tube::take_top_ball() -> char
 
 auto Tube::place_ball(const char ball) -> void
 {
-    if (is_full()) {
-        std::cout << "Cannot place ball " << ball << " into tube " << m_balls
-                  << '\n';
-        return;
-    }
+    if (is_full()) throw TooManyBallsException();
+    if (ball == '\0') return;
 
     m_balls.push_back(ball);
 }
