@@ -6,7 +6,7 @@
 TEST(TubeTest, IsOneColour)
 {
     std::vector<Tube> tubes{Tube{"AAAA"}, Tube{"BBB"}, Tube{"CC"}, Tube{"D"}};
-    for (const Tube &tube : tubes) {
+    for (const Tube& tube : tubes) {
         EXPECT_TRUE(tube.is_one_colour());
     }
 }
