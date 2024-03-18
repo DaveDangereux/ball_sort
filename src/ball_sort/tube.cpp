@@ -1,7 +1,5 @@
 #include "ball_sort/tube.hpp"
-#include <iostream>
 #include <string>
-#include <unordered_set>
 
 Tube::Tube(const std::string &balls) : m_balls{balls} {}
 
@@ -17,12 +15,11 @@ auto Tube::is_full() const -> bool
 
 auto Tube::is_one_colour() const -> bool
 {
-    std::unordered_set<char> ball_colours{};
-    for (const char &ball : m_balls) {
-        ball_colours.insert(ball);
-    }
+    if (m_balls.empty()) return false;
 
-    return ball_colours.size() == 1;
+    const char &first_ball{m_balls.front()};
+    return std::all_of(m_balls.begin() + 1, m_balls.end(),
+                       [first_ball](char c) { return c == first_ball; });
 }
 
 auto Tube::is_solved() const -> bool
