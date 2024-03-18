@@ -1,4 +1,6 @@
 #include "ball_sort/puzzle.hpp"
+#include "ball_sort/exceptions/illegal_move_exception.hpp"
+#include "ball_sort/exceptions/illegal_puzzle_exception.hpp"
 #include "ball_sort/tube.hpp"
 #include <iostream>
 #include <sstream>
@@ -65,8 +67,7 @@ auto Puzzle::validate_puzzle() const -> void
     if (m_tubes.size() < minimum_number_of_tubes) is_valid_puzzle = false;
 
     if (!is_valid_puzzle) {
-        std::cout << "Invalid puzzle" << '\n';
-        exit(1);
+        throw IllegalPuzzleException();
     }
 }
 
@@ -90,6 +91,8 @@ auto Puzzle::do_move(const size_t origin, const size_t destination) -> void
 {
     const std::string &state_prior_to_move{get_serialised_state()};
     m_move_history.emplace_back(origin, destination, state_prior_to_move);
+
+    if (!is_legal_move(origin, destination)) throw IllegalMoveException();
 
     char ball{m_tubes.at(origin).take_top_ball()};
     m_tubes.at(destination).place_ball(ball);
