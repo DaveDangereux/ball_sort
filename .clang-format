@@ -1,0 +1,36 @@
+BasedOnStyle: LLVM
+
+# Misc
+IndentWidth: 4
+PointerAlignment: Left
+AccessModifierOffset: -3
+AlwaysBreakTemplateDeclarations: Yes
+BinPackParameters: false
+
+# Single Lines
+AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+
+# Brace Wrapping
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterEnum: true
+  AfterExternBlock: true
+  AfterFunction: true
+  AfterObjCDeclaration: true
+  AfterUnion: true
+  BeforeCatch: true
+  BeforeWhile: true
+  SplitEmptyNamespace: true
+  SplitEmptyRecord: true
+
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterNamespace: false
+  AfterStruct: false
+  BeforeElse: false
+  BeforeLambdaBody: false
+  IndentBraces: false
+  SplitEmptyFunction: false

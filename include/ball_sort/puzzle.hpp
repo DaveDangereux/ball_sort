@@ -8,8 +8,8 @@
 
 class Puzzle {
  public:
-    Puzzle(const std::vector<std::string> &letter_strings);
-    Puzzle(const std::string &number_sequence);
+    Puzzle(const std::vector<std::string>& letter_strings);
+    Puzzle(const std::string& number_sequence);
 
     auto get_legal_moves() const -> std::vector<Move>;
     auto do_move(const size_t origin, const size_t destination) -> void;
@@ -17,13 +17,13 @@ class Puzzle {
     auto is_novel_puzzle_state() const -> bool;
     auto is_solved() const -> bool;
     auto reset() -> void;
-    auto get_tubes() const -> const std::vector<Tube> &;
-    auto get_history() const -> const std::vector<Move> &;
+    auto get_tubes() const -> const std::vector<Tube>&;
+    auto get_history() const -> const std::vector<Move>&;
 
  private:
-    constexpr auto make_tubes(const std::vector<std::string> &letter_strings)
+    constexpr auto make_tubes(const std::vector<std::string>& letter_strings)
         -> std::vector<Tube>;
-    auto make_tubes(const std::string &number_string) -> std::vector<Tube>;
+    auto make_tubes(const std::string& number_string) -> std::vector<Tube>;
     auto validate_puzzle() const -> void;
 
     auto is_legal_move(const size_t origin_index,

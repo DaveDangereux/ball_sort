@@ -3,7 +3,7 @@
 #include <ball_sort/exceptions/too_many_balls_exception.hpp>
 #include <string>
 
-Tube::Tube(const std::string &balls) : m_balls{balls}
+Tube::Tube(const std::string& balls) : m_balls{balls}
 {
     if (m_balls.size() > MAX_CAPACITY) throw TooManyBallsException();
 }
@@ -22,7 +22,7 @@ auto Tube::is_one_colour() const -> bool
 {
     if (m_balls.empty()) return false;
 
-    const char &first_ball{m_balls.front()};
+    const char& first_ball{m_balls.front()};
     return std::all_of(m_balls.begin() + 1, m_balls.end(),
                        [first_ball](char c) { return c == first_ball; });
 }
@@ -32,7 +32,7 @@ auto Tube::is_solved() const -> bool
     return is_full() && is_one_colour();
 }
 
-auto Tube::get_balls() const -> const std::string &
+auto Tube::get_balls() const -> const std::string&
 {
     return m_balls;
 }
