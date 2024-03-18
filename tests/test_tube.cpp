@@ -1,3 +1,4 @@
+#include "ball_sort/exceptions/not_enough_balls_exception.hpp"
 #include "ball_sort/exceptions/too_many_balls_exception.hpp"
 #include "ball_sort/tube.hpp"
 #include <gtest/gtest.h>
@@ -45,16 +46,6 @@ TEST(TubeTest, ThreeBallsOneColourIsNotSolved)
     EXPECT_FALSE(tube.is_solved());
 }
 
-TEST(TubeTest, TakingTopBallFromEmptyTubeAndReplacingChangesNothing)
-{
-    std::string empty_string{""};
-    Tube tube(empty_string);
-    char ball{tube.take_top_ball()};
-    tube.place_ball(ball);
-    EXPECT_EQ(ball, '\0');
-    EXPECT_EQ(tube.get_balls(), empty_string);
-}
-
 TEST(TubeTest, SingleBallTubeIsOneColour)
 {
     Tube tube{"A"};
@@ -71,4 +62,10 @@ TEST(TubeTest, FourBallsIsFull)
 {
     Tube tube{"ABCD"};
     EXPECT_TRUE(tube.is_full());
+}
+
+TEST(TubeTest, TakeBallFromEmptyTubeThrowsException)
+{
+    Tube tube{""};
+    EXPECT_THROW(tube.take_top_ball(), NotEnoughBallsException);
 }
