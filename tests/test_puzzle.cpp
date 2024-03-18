@@ -1,25 +1,31 @@
+#include "ball_sort/exceptions/illegal_move_exception.hpp"
+#include "ball_sort/exceptions/illegal_puzzle_exception.hpp"
 #include "ball_sort/puzzle.hpp"
-#include "ball_sort/solver.hpp"
 #include <gtest/gtest.h>
 
-TEST(PuzzleTest, DoMoveFromEmptyTubeToEmptyTubeChangesNothing)
+TEST(PuzzleTest, DoMoveFromEmptyTubeThrowsException)
 {
-    std::vector<std::string> tube_strings{"AAAA", "BBBB", "", ""};
+    std::vector<std::string> tube_strings{"", "", "AAAA", "BBBB"};
     Puzzle puzzle{tube_strings};
-    puzzle.do_move(2, 3);
-    std::vector<Tube> tubes = puzzle.get_tubes();
-    for (size_t i{0}; i < tubes.size(); i++) {
-        EXPECT_EQ(tubes.at(i).get_balls(), tube_strings.at(i));
-    }
+    EXPECT_THROW(puzzle.do_move(0, 1), IllegalMoveException);
 }
 
-TEST(PuzzleTest, DoMoveToFullTubeChangesNothing)
+TEST(PuzzleTest, DoMoveToFullTubeThrowsException)
 {
-    std::vector<std::string> tube_strings{"AAAA", "BBBB", "", ""};
+    std::vector<std::string> tube_strings{"ABBB", "AAAB", "", ""};
     Puzzle puzzle{tube_strings};
-    puzzle.do_move(0, 1);
-    std::vector<Tube> tubes = puzzle.get_tubes();
-    for (size_t i{0}; i < tubes.size(); i++) {
-        EXPECT_EQ(tubes.at(i).get_balls(), tube_strings.at(i));
-    }
+    EXPECT_THROW(puzzle.do_move(0, 1), IllegalMoveException);
+}
+
+TEST(PuzzleTest, LessThanMinimumTubesThrowsException)
+{
+    std::vector<std::string> tube_strings{"AAAA", "BBBB", ""};
+    EXPECT_THROW(Puzzle{tube_strings}, IllegalPuzzleException);
+}
+
+TEST(PuzzleTest, MovingToWrongColourThrowsException)
+{
+    std::vector<std::string> tube_strings{"A", "BBB", "AAA", "B"};
+    Puzzle puzzle{tube_strings};
+    EXPECT_THROW(puzzle.do_move(0, 1), IllegalMoveException);
 }
