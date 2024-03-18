@@ -1,4 +1,5 @@
 #include "ball_sort/tube.hpp"
+#include <ball_sort/exceptions/not_enough_balls_exception.hpp>
 #include <ball_sort/exceptions/too_many_balls_exception.hpp>
 #include <string>
 
@@ -57,6 +58,7 @@ auto Tube::get_serialised_balls() const -> std::string
 
 auto Tube::take_top_ball() -> char
 {
+    if (m_balls.empty()) throw NotEnoughBallsException();
     char ball{m_balls.back()};
     m_balls.pop_back();
     return ball;
@@ -65,7 +67,5 @@ auto Tube::take_top_ball() -> char
 auto Tube::place_ball(const char ball) -> void
 {
     if (is_full()) throw TooManyBallsException();
-    if (ball == '\0') return;
-
     m_balls.push_back(ball);
 }
