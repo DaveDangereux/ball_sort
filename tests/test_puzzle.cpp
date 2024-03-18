@@ -29,3 +29,17 @@ TEST(PuzzleTest, MovingToWrongColourThrowsException)
     Puzzle puzzle{tube_strings};
     EXPECT_THROW(puzzle.do_move(0, 1), IllegalMoveException);
 }
+
+TEST(PuzzleTest, MoveFromOutOfBoundsOriginThrowsException)
+{
+    std::vector<std::string> tube_strings{"AABB", "BBAA", "", ""};
+    Puzzle puzzle{tube_strings};
+    EXPECT_THROW(puzzle.do_move(4, 3), IllegalMoveException);
+}
+
+TEST(PuzzleTest, MoveFromOutOfBoundsDestinationThrowsException)
+{
+    std::vector<std::string> tube_strings{"AABB", "BBAA", "", ""};
+    Puzzle puzzle{tube_strings};
+    EXPECT_THROW(puzzle.do_move(3, 4), IllegalMoveException);
+}

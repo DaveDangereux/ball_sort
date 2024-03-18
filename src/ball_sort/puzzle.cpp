@@ -89,6 +89,9 @@ auto Puzzle::get_legal_moves() const -> std::vector<Move>
 
 auto Puzzle::do_move(const size_t origin, const size_t destination) -> void
 {
+    if (origin >= m_tubes.size() || destination >= m_tubes.size())
+        throw IllegalMoveException();
+
     const std::string& state_prior_to_move{get_serialised_state()};
     m_move_history.emplace_back(origin, destination, state_prior_to_move);
 
