@@ -2,12 +2,16 @@
 #include "ball_sort/move.hpp"
 #include "ball_sort/tube.hpp"
 #include <iostream>
+#include <thread>
 
-auto Solver::solve(Puzzle& puzzle) -> void
+auto Solver::solve(Puzzle& puzzle, bool display) -> void
 {
     puzzle.reset();
 
-    print_puzzle(puzzle);
+    if (display) {
+        print_puzzle(puzzle);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
 
     std::unordered_set<Move> excluded_moves{};
 
@@ -39,7 +43,10 @@ auto Solver::solve(Puzzle& puzzle) -> void
             puzzle.undo_move();
         }
 
-        print_puzzle(puzzle);
+        if (display) {
+            print_puzzle(puzzle);
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        }
     }
 
     std::cout << "Solved in " << puzzle.get_history().size() << " moves."
@@ -76,10 +83,12 @@ auto Solver::pick_move(const std::vector<Move>& filtered_moves) -> Move
 auto Solver::print_puzzle(const Puzzle& puzzle) -> void
 {
 #ifdef _WIN32
-    std::system("cls");
+    // std::system("cls");
 #else
-    std::system("clear");
+    // std::system("clear");
 #endif
+
+    std::cout << "\033[2J\033[H";
 
     for (size_t row{1}; row <= Tube::MAX_CAPACITY; ++row) {
         for (const Tube& tube : puzzle.get_tubes()) {
@@ -102,7 +111,7 @@ auto Solver::print_puzzle(const Puzzle& puzzle) -> void
     std::cout << '\n';
 }
 
-auto Solver::play_solution(Puzzle& puzzle) -> void
+auto Solver::play_solution(Puzzle& puzzle, int moves_per_second) -> void
 {
     if (puzzle.get_history().size() == 0) solve(puzzle);
     const std::vector<Move> solution{puzzle.get_history()};
@@ -110,7 +119,8 @@ auto Solver::play_solution(Puzzle& puzzle) -> void
 
     for (const Move& move : solution) {
         print_puzzle(puzzle);
-        std::cin.get();
+        std::this_thread::sleep_for(
+            std::chrono::milliseconds(1000 / moves_per_second));
         puzzle.do_move(move.m_origin, move.m_destination);
     }
 
