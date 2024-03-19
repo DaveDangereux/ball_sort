@@ -18,8 +18,10 @@ class Tube {
     auto take_top_ball() -> char;
     auto place_ball(const char ball) -> void;
 
-    static const size_t MAX_CAPACITY{4};
+    static auto get_max_capacity() -> size_t;
 
  private:
+    static const size_t MAX_CAPACITY{4};
+
     std::string m_balls;
 };
