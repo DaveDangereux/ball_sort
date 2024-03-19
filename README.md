@@ -16,6 +16,11 @@ that has space. If the destination contains balls, the colour of the top ball
 must match the colour of the ball placed in it. If the tube is empty, any
 colour ball can be placed in it.
 
+## Demo
+![A demo of the program running](https://github.com/D4n93r3ux/ball_sort/assets/61416292/cce0551c-dac6-4aad-b23d-ffd75374b5b5)
+
+*A short demo of the program running.*
+
 ## Usage
 
 The project is a C++ terminal application and builds to an executable that
