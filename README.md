@@ -77,5 +77,10 @@ binaries will be output to a top-level `bin` directory.
 If you would like to run tests, a `test.sh` script is also included. This will
 build a Google Test executable.
 
+## Known issues
+Although all illegal and many wasteful moves have been eliminated, the
+algorithm still makes unnecessary moves. This will be corrected in a future
+update.
+
 ## Author
 [David Jordan](https://github.com/d4n93r3ux)
