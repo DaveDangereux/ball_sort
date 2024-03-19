@@ -1,9 +1,7 @@
 # ball_sort
-
 A brute-force solver for the Ball Sorting Puzzle.
 
 ## What is a Ball Sorting Puzzle?
-
 A puzzle consists of a number of tubes filled with balls of different colours,
 plus two empty tubes. A full tube contains four balls, and there are exactly
 four balls of each colour.
@@ -22,7 +20,6 @@ colour ball can be placed in it.
 *A short demo of the program running.*
 
 ## Usage
-
 The project is a C++ terminal application and builds to an executable that
 demonstrates the solution of one puzzle.
 
@@ -73,11 +70,12 @@ Solver::play_solution(puzzle);
 ```
 
 ## Building
-
 CMake files are included, plus a `build.sh` script for convenience. The
 binaries will be output to a top-level `bin` directory.
 
 ## Run tests
-
 If you would like to run tests, a `test.sh` script is also included. This will
 build a Google Test executable.
+
+## Author
+[David Jordan](https://github.com/d4n93r3ux)
