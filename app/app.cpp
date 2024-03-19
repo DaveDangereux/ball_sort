@@ -9,9 +9,16 @@ int main()
 
     Solver::solve(puzzle);
 
-    std::cin.get();
+    std::cout << "Play solution?" << "\n"
+              << "> ";
 
-    Solver::play_solution(puzzle);
+    char answer{};
+
+    std::cin >> answer;
+
+    if (std::toupper(answer) == 'Y') {
+        Solver::play_solution(puzzle, 9);
+    }
 
     return 0;
 }
