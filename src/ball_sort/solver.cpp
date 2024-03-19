@@ -90,13 +90,13 @@ auto Solver::print_puzzle(const Puzzle& puzzle) -> void
 
     std::cout << "\033[2J\033[H";
 
-    for (size_t row{1}; row <= Tube::MAX_CAPACITY; ++row) {
+    for (size_t row{1}; row <= Tube::get_max_capacity(); ++row) {
         for (const Tube& tube : puzzle.get_tubes()) {
             // Balls in a vertical tube are represented by a string, where the
             // left-most char represents the bottom ball. Printing rows
             // top-to-bottom and counting the top row as 1, the associated
             // ball_index is MAX_CAPACITY minus the row number.
-            size_t ball_index = Tube::MAX_CAPACITY - row;
+            size_t ball_index = Tube::get_max_capacity() - row;
 
             bool has_balls_up_to_this_row =
                 tube.get_balls().size() > ball_index;

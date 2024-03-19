@@ -59,7 +59,7 @@ auto Puzzle::validate_puzzle() const -> void
     bool is_valid_puzzle{true};
 
     for (const auto& tally : ball_tally) {
-        bool is_wrong_ball_quantity{tally.second != Tube::MAX_CAPACITY};
+        bool is_wrong_ball_quantity{tally.second != Tube::get_max_capacity()};
         if (is_wrong_ball_quantity) is_valid_puzzle = false;
     }
 

@@ -56,6 +56,11 @@ auto Tube::get_serialised_balls() const -> std::string
     }
 }
 
+auto Tube::get_max_capacity() -> size_t
+{
+    return MAX_CAPACITY;
+}
+
 auto Tube::take_top_ball() -> char
 {
     if (m_balls.empty()) throw NotEnoughBallsException();
