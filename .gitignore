@@ -5,3 +5,4 @@ package.json
 pnpm-lock.yaml
 bake
 bin
+.DS_Store
