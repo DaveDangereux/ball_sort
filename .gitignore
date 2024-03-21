@@ -6,3 +6,5 @@ pnpm-lock.yaml
 bake
 bin
 .DS_Store
+demo.tape
+CMakeUserPresets.json
