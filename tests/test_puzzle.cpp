@@ -43,3 +43,13 @@ TEST(PuzzleTest, MoveFromOutOfBoundsDestinationThrowsException)
     Puzzle puzzle{tube_strings};
     EXPECT_THROW(puzzle.do_move(3, 4), IllegalMoveException);
 }
+
+TEST(PuzzleTest, BallNumbersMustMapToLetters)
+{
+    std::string less_than_one{"1 1 1 1 0 0 0 0"};
+    std::string greater_than_twenty_six{"1 1 1 1 27 27 27 27"};
+    EXPECT_THROW(Puzzle{less_than_one}, IllegalPuzzleException)
+        << "Number must be greater than 1";
+    EXPECT_THROW(Puzzle{greater_than_twenty_six}, IllegalPuzzleException)
+        << "Number must be less than 26";
+}

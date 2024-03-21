@@ -1,11 +1,10 @@
 #pragma once
 
-#include <exception>
+#include <string>
 
-class IllegalPuzzleException : public std::exception {
+class IllegalPuzzleException : public std::runtime_error {
  public:
-    auto what() const noexcept -> const char* override
-    {
-        return "Illegal puzzle";
-    };
+    IllegalPuzzleException(const std::string& message)
+        : std::runtime_error(message)
+    {}
 };

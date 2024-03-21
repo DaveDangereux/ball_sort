@@ -12,7 +12,7 @@ add_executable(${TEST_EXECUTABLE_NAME} ${TEST_SOURCE_FILES} ${SOURCE_FILES})
 target_include_directories(${TEST_EXECUTABLE_NAME}
                            PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
-target_link_libraries(${TEST_EXECUTABLE_NAME} gtest::gtest)
+target_link_libraries(${TEST_EXECUTABLE_NAME} gtest::gtest fmt::fmt)
 
 include(GoogleTest)
 gtest_discover_tests(${TEST_EXECUTABLE_NAME})

@@ -1,7 +1,5 @@
 file(GLOB SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/**/*.cpp)
 
-find_package(fmt REQUIRED)
-
 add_executable(${PROJECT_NAME} app.cpp ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)

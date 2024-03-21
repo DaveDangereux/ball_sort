@@ -1,11 +1,14 @@
 #include "ball_sort/tube.hpp"
-#include <ball_sort/exceptions/not_enough_balls_exception.hpp>
-#include <ball_sort/exceptions/too_many_balls_exception.hpp>
+#include <ball_sort/exceptions/illegal_move_exception.hpp>
+#include <ball_sort/exceptions/illegal_puzzle_exception.hpp>
+#include <fmt/core.h>
 #include <string>
 
 Tube::Tube(const std::string& balls) : m_balls{balls}
 {
-    if (m_balls.size() > MAX_CAPACITY) throw TooManyBallsException();
+    if (m_balls.size() > MAX_CAPACITY)
+        throw IllegalPuzzleException(std::string{"Too many balls for tube: "} +
+                                     m_balls);
 }
 
 auto Tube::is_empty() const -> bool
@@ -39,10 +42,11 @@ auto Tube::get_balls() const -> const std::string&
 
 auto Tube::get_top_ball() const -> char
 {
-    if (m_balls.size() > 0) {
-        return m_balls.back();
+    if (m_balls.size() < 1) {
+        throw IllegalMoveException(
+            "Tried to get top ball colour from empty tube");
     } else {
-        return ' ';
+        return m_balls.back();
     }
 }
 
@@ -63,7 +67,8 @@ auto Tube::get_max_capacity() -> size_t
 
 auto Tube::take_top_ball() -> char
 {
-    if (m_balls.empty()) throw NotEnoughBallsException();
+    if (m_balls.empty())
+        throw IllegalMoveException("Tried to take ball from empty tube");
     char ball{m_balls.back()};
     m_balls.pop_back();
     return ball;
@@ -71,6 +76,10 @@ auto Tube::take_top_ball() -> char
 
 auto Tube::place_ball(const char ball) -> void
 {
-    if (is_full()) throw TooManyBallsException();
+    if (is_full()) {
+        throw IllegalMoveException(fmt::format(
+            "Tried to place ball {} in full tube {}", ball, m_balls));
+    }
+
     m_balls.push_back(ball);
 }

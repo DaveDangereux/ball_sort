@@ -2,7 +2,7 @@
 #include "ball_sort/exceptions/illegal_move_exception.hpp"
 #include "ball_sort/exceptions/illegal_puzzle_exception.hpp"
 #include "ball_sort/tube.hpp"
-#include <iostream>
+#include <fmt/core.h>
 #include <sstream>
 
 Puzzle::Puzzle(const std::vector<std::string>& letter_strings)
@@ -33,16 +33,28 @@ auto Puzzle::make_tubes(const std::string& number_string) -> std::vector<Tube>
 {
     std::vector<Tube> tubes{};
 
-    std::stringstream number_stream{number_string};
+    // Numbers must map to letters
+    const int MIN_NUMBER{1};
+    const int MAX_NUMBER{26};
+
+    auto letter_from_number = [](const int& n) -> char {
+        return static_cast<char>('A' + n - 1);
+    };
+
+    std::istringstream number_stream{number_string};
     int number{};
 
-    std::string ball_string{};
+    std::string tube_string{};
 
     while (number_stream >> number) {
-        ball_string.push_back(static_cast<char>('A' - 1 + number));
-        if (ball_string.size() == 4) {
-            tubes.emplace_back(ball_string);
-            ball_string.clear();
+        if (number < MIN_NUMBER || number > MAX_NUMBER)
+            throw IllegalPuzzleException(
+                std::string{"Number out of range: " + std::to_string(number)});
+
+        tube_string.push_back(letter_from_number(number));
+        if (tube_string.size() == Tube::get_max_capacity()) {
+            tubes.emplace_back(tube_string);
+            tube_string.clear();
         }
     }
 
@@ -60,14 +72,18 @@ auto Puzzle::validate_puzzle() const -> void
 
     for (const auto& tally : ball_tally) {
         bool is_wrong_ball_quantity{tally.second != Tube::get_max_capacity()};
-        if (is_wrong_ball_quantity) is_valid_puzzle = false;
+        if (is_wrong_ball_quantity)
+            throw IllegalPuzzleException(
+                "Puzzle must have four balls for each colour");
     }
 
     size_t minimum_number_of_tubes{ball_tally.size() + 2};
-    if (m_tubes.size() < minimum_number_of_tubes) is_valid_puzzle = false;
+    if (m_tubes.size() < minimum_number_of_tubes) {
+        throw IllegalPuzzleException("Not enough tubes");
+    }
 
     if (!is_valid_puzzle) {
-        throw IllegalPuzzleException();
+        throw IllegalPuzzleException("Puzzle is illegal");
     }
 }
 
@@ -89,13 +105,20 @@ auto Puzzle::get_legal_moves() const -> std::vector<Move>
 
 auto Puzzle::do_move(const size_t origin, const size_t destination) -> void
 {
-    if (origin >= m_tubes.size() || destination >= m_tubes.size())
-        throw IllegalMoveException();
+    if (origin >= m_tubes.size() || destination >= m_tubes.size()) {
+        size_t maximum_tube_index{m_tubes.size() - 1};
+        throw IllegalMoveException(fmt::format(
+            "Origin {} or destination {} exceeds maximum tube index {}", origin,
+            destination, maximum_tube_index));
+    }
 
     const std::string& state_prior_to_move{get_serialised_state()};
     m_move_history.emplace_back(origin, destination, state_prior_to_move);
 
-    if (!is_legal_move(origin, destination)) throw IllegalMoveException();
+    if (!is_legal_move(origin, destination)) {
+        throw IllegalMoveException(
+            fmt::format("Illegal move: {} to {}", origin, destination));
+    }
 
     char ball{m_tubes.at(origin).take_top_ball()};
     m_tubes.at(destination).place_ball(ball);
@@ -163,8 +186,8 @@ auto Puzzle::is_legal_move(const size_t origin_index,
     if (origin.is_empty()) return false;
     if (destination.is_full()) return false;
 
-    return (origin.get_top_ball() == destination.get_top_ball()) ||
-           destination.is_empty();
+    return (destination.is_empty() ||
+            origin.get_top_ball() == destination.get_top_ball());
 }
 
 auto Puzzle::get_ball_tally() const -> std::unordered_map<char, size_t>
