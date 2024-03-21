@@ -14,5 +14,19 @@ target_include_directories(${TEST_EXECUTABLE_NAME}
 
 target_link_libraries(${TEST_EXECUTABLE_NAME} gtest::gtest fmt::fmt)
 
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+  if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+    target_compile_options(
+      ${TEST_EXECUTABLE_NAME}
+      PRIVATE -g
+              -Wall
+              -Wextra
+              -Wshadow
+              -Wconversion
+              -Wpedantic
+              -Werror)
+  endif()
+endif()
+
 include(GoogleTest)
 gtest_discover_tests(${TEST_EXECUTABLE_NAME})
