@@ -6,19 +6,20 @@ class Tube {
  public:
     Tube(const std::string& balls);
 
-    auto operator==(const Tube& other) const -> bool = default;
+    [[nodiscard]] bool operator==(const Tube& other) const = default;
 
-    auto is_empty() const -> bool;
-    auto is_full() const -> bool;
-    auto is_one_colour() const -> bool;
-    auto is_solved() const -> bool;
-    auto get_balls() const -> const std::string&;
-    auto get_top_ball() const -> char;
-    auto get_serialised_balls() const -> std::string;
-    auto take_top_ball() -> char;
-    auto place_ball(const char ball) -> void;
+    [[nodiscard]] bool is_empty() const;
+    [[nodiscard]] bool is_full() const;
+    [[nodiscard]] bool is_one_colour() const;
+    [[nodiscard]] bool is_solved() const;
+    [[nodiscard]] char get_top_ball() const;
+    [[nodiscard]] const std::string& get_balls() const;
+    [[nodiscard]] std::string get_serialised_balls() const;
 
-    static auto get_max_capacity() -> size_t;
+    char take_top_ball();
+    void place_ball(const char ball);
+
+    static size_t get_max_capacity();
 
  private:
     static const size_t MAX_CAPACITY{4};
