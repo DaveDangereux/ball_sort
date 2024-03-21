@@ -15,12 +15,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-  add_compile_options(-Wall -Wextra -Wshadow -Wconversion -Wpedantic -Werror)
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+  if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+    add_compile_options(-Wall -Wextra -Wshadow -Wconversion -Wpedantic -Werror)
+  endif()
 endif()
 
 add_subdirectory(app)
 
-if(${BUILD_TESTS})
+if(BUILD_TESTS)
   add_subdirectory(tests)
 endif()
