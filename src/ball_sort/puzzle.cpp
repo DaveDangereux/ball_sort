@@ -177,10 +177,11 @@ const std::vector<Move>& Puzzle::get_history() const
 bool Puzzle::is_legal_move(const size_t origin_index,
                            const size_t destination_index) const
 {
+    if (origin_index == destination_index) return false;
+
     const Tube& origin{m_tubes.at(origin_index)};
     const Tube& destination{m_tubes.at(destination_index)};
 
-    if (origin_index == destination_index) return false;
     if (origin.is_empty()) return false;
     if (destination.is_full()) return false;
 
