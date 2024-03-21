@@ -1,8 +1,16 @@
 #include "ball_sort/move.hpp"
 
-Move::Move(const size_t origin,
-           const size_t destination,
-           const std::string& serialised_state)
-    : m_origin{origin}, m_destination{destination},
-      m_serialised_state{serialised_state}
+Move::Move(const std::pair<size_t, size_t> move, std::string serialised_state)
+    : m_origin{move.first}, m_destination{move.second},
+      m_serialised_state{std::move(serialised_state)}
 {}
+
+size_t Move::get_origin() const
+{
+    return m_origin;
+}
+
+size_t Move::get_destination() const
+{
+    return m_destination;
+}

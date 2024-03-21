@@ -4,7 +4,7 @@
 
 class Tube {
  public:
-    Tube(const std::string& balls);
+    explicit Tube(std::string balls);
 
     [[nodiscard]] bool operator==(const Tube& other) const = default;
 
@@ -17,12 +17,15 @@ class Tube {
     [[nodiscard]] std::string get_serialised_balls() const;
 
     char take_top_ball();
-    void place_ball(const char ball);
+    void place_ball(char ball);
 
-    static size_t get_max_capacity();
+    static constexpr size_t get_max_capacity()
+    {
+        return MAX_CAPACITY;
+    };
 
  private:
-    static const size_t MAX_CAPACITY{4};
+    static constexpr size_t MAX_CAPACITY{4};
 
     std::string m_balls;
 };

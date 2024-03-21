@@ -4,7 +4,7 @@
 
 class IllegalPuzzleException : public std::runtime_error {
  public:
-    IllegalPuzzleException(const std::string& message)
+    explicit IllegalPuzzleException(const std::string& message)
         : std::runtime_error(message)
     {}
 };

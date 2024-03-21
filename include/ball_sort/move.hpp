@@ -5,25 +5,29 @@
 struct Move {
     friend std::hash<Move>;
 
-    Move(const size_t origin,
-         const size_t destination,
-         const std::string& serialised_state = "");
+    Move(std::pair<size_t, size_t> move, std::string serialised_state);
 
     bool operator==(const Move& other) const = default;
 
-    const size_t m_origin;
-    const size_t m_destination;
+    [[nodiscard]] size_t get_origin() const;
+    [[nodiscard]] size_t get_destination() const;
 
  private:
-    const std::string m_serialised_state;
+    size_t m_origin;
+    size_t m_destination;
+    std::string m_serialised_state;
 };
 
 template <>
 struct std::hash<Move> {
     size_t operator()(const Move& move) const
     {
-        return (std::hash<size_t>()(move.m_origin) << 2) ^
+        size_t origin_offset{2};
+        size_t state_offset{4};
+
+        return (std::hash<size_t>()(move.m_origin) << origin_offset) ^
                std::hash<size_t>()(move.m_destination) ^
-               (std::hash<std::string>()(move.m_serialised_state) << 4);
+               (std::hash<std::string>()(move.m_serialised_state)
+                << state_offset);
     }
 };

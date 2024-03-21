@@ -17,8 +17,10 @@ int main()
 
     std::cin >> answer;
 
+    const size_t moves_per_second{9};
+
     if (std::toupper(answer) == 'Y') {
-        Solver::play_solution(puzzle, 9);
+        Solver::play_solution(puzzle, moves_per_second);
     }
 
     return 0;
