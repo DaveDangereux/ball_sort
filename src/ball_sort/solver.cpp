@@ -4,7 +4,7 @@
 #include <fmt/core.h>
 #include <thread>
 
-auto Solver::solve(Puzzle& puzzle, bool display) -> void
+void Solver::solve(Puzzle& puzzle, bool display)
 {
     puzzle.reset();
 
@@ -52,10 +52,10 @@ auto Solver::solve(Puzzle& puzzle, bool display) -> void
     fmt::print("Solved in {} moves.\n", puzzle.get_history().size());
 }
 
-auto Solver::purge_redundant_moves(
-    const std::vector<Move>& legal_moves,
-    const std::unordered_set<Move>& excluded_moves,
-    const Puzzle& puzzle) -> std::vector<Move>
+std::vector<Move>
+Solver::purge_redundant_moves(const std::vector<Move>& legal_moves,
+                              const std::unordered_set<Move>& excluded_moves,
+                              const Puzzle& puzzle)
 {
     std::vector<Move> potential_moves{};
     const std::vector<Tube>& tubes{puzzle.get_tubes()};
@@ -74,12 +74,12 @@ auto Solver::purge_redundant_moves(
     return potential_moves;
 }
 
-auto Solver::pick_move(const std::vector<Move>& filtered_moves) -> Move
+Move Solver::pick_move(const std::vector<Move>& filtered_moves)
 {
     return filtered_moves.front();
 }
 
-auto Solver::print_puzzle(const Puzzle& puzzle) -> void
+void Solver::print_puzzle(const Puzzle& puzzle)
 {
     fmt::print("\033[2J\033[H");
 
@@ -104,7 +104,7 @@ auto Solver::print_puzzle(const Puzzle& puzzle) -> void
     fmt::print("\n");
 }
 
-auto Solver::play_solution(Puzzle& puzzle, int moves_per_second) -> void
+void Solver::play_solution(Puzzle& puzzle, int moves_per_second)
 {
     if (puzzle.get_history().size() == 0) solve(puzzle);
     const std::vector<Move> solution{puzzle.get_history()};

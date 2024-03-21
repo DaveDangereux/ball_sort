@@ -11,17 +11,17 @@ Tube::Tube(const std::string& balls) : m_balls{balls}
                                      m_balls);
 }
 
-auto Tube::is_empty() const -> bool
+bool Tube::is_empty() const
 {
     return m_balls.empty();
 }
 
-auto Tube::is_full() const -> bool
+bool Tube::is_full() const
 {
     return m_balls.size() == MAX_CAPACITY;
 }
 
-auto Tube::is_one_colour() const -> bool
+bool Tube::is_one_colour() const
 {
     if (m_balls.empty()) return false;
 
@@ -30,17 +30,17 @@ auto Tube::is_one_colour() const -> bool
                        [first_ball](char c) { return c == first_ball; });
 }
 
-auto Tube::is_solved() const -> bool
+bool Tube::is_solved() const
 {
     return is_full() && is_one_colour();
 }
 
-auto Tube::get_balls() const -> const std::string&
+const std::string& Tube::get_balls() const
 {
     return m_balls;
 }
 
-auto Tube::get_top_ball() const -> char
+char Tube::get_top_ball() const
 {
     if (m_balls.size() < 1) {
         throw IllegalMoveException(
@@ -50,7 +50,7 @@ auto Tube::get_top_ball() const -> char
     }
 }
 
-auto Tube::get_serialised_balls() const -> std::string
+std::string Tube::get_serialised_balls() const
 {
     if (is_full()) {
         return m_balls;
@@ -60,12 +60,12 @@ auto Tube::get_serialised_balls() const -> std::string
     }
 }
 
-auto Tube::get_max_capacity() -> size_t
+size_t Tube::get_max_capacity()
 {
     return MAX_CAPACITY;
 }
 
-auto Tube::take_top_ball() -> char
+char Tube::take_top_ball()
 {
     if (m_balls.empty())
         throw IllegalMoveException("Tried to take ball from empty tube");
@@ -74,7 +74,7 @@ auto Tube::take_top_ball() -> char
     return ball;
 }
 
-auto Tube::place_ball(const char ball) -> void
+void Tube::place_ball(const char ball)
 {
     if (is_full()) {
         throw IllegalMoveException(fmt::format(

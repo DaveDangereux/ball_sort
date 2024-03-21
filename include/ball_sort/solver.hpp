@@ -5,12 +5,15 @@
 
 class Solver {
  public:
-    static auto solve(Puzzle& puzzle, bool display = false) -> void;
-    static auto
+    static void solve(Puzzle& puzzle, bool display = false);
+    static void print_puzzle(const Puzzle& puzzle);
+    static void play_solution(Puzzle& puzzle, int moves_per_second);
+
+    [[nodiscard]] static Move
+    pick_move(const std::vector<Move>& filtered_moves);
+
+    [[nodiscard]] static std::vector<Move>
     purge_redundant_moves(const std::vector<Move>& legal_moves,
                           const std::unordered_set<Move>& excluded_moves,
-                          const Puzzle& puzzle) -> std::vector<Move>;
-    static auto pick_move(const std::vector<Move>& filtered_moves) -> Move;
-    static auto print_puzzle(const Puzzle& puzzle) -> void;
-    static auto play_solution(Puzzle& puzzle, int moves_per_second) -> void;
+                          const Puzzle& puzzle);
 };

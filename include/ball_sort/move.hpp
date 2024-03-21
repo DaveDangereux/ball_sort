@@ -9,7 +9,7 @@ struct Move {
          const size_t destination,
          const std::string& serialised_state = "");
 
-    auto operator==(const Move& other) const -> bool = default;
+    bool operator==(const Move& other) const = default;
 
     const size_t m_origin;
     const size_t m_destination;
@@ -20,7 +20,7 @@ struct Move {
 
 template <>
 struct std::hash<Move> {
-    auto operator()(const Move& move) const -> size_t
+    size_t operator()(const Move& move) const
     {
         return (std::hash<size_t>()(move.m_origin) << 2) ^
                std::hash<size_t>()(move.m_destination) ^
