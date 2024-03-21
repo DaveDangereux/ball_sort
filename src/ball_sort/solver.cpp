@@ -1,7 +1,7 @@
 #include "ball_sort/solver.hpp"
 #include "ball_sort/move.hpp"
 #include "ball_sort/tube.hpp"
-#include <iostream>
+#include <fmt/core.h>
 #include <thread>
 
 auto Solver::solve(Puzzle& puzzle, bool display) -> void
@@ -30,7 +30,7 @@ auto Solver::solve(Puzzle& puzzle, bool display) -> void
 
         bool is_unsolvable{filtered_moves.size() == 0 && history_length == 0};
         if (is_unsolvable) {
-            std::cout << "Unsolvable" << '\n';
+            fmt::print("Unsolvable\n");
             return;
         }
 
@@ -49,8 +49,7 @@ auto Solver::solve(Puzzle& puzzle, bool display) -> void
         }
     }
 
-    std::cout << "Solved in " << puzzle.get_history().size() << " moves."
-              << '\n';
+    fmt::print("Solved in {} moves.\n", puzzle.get_history().size());
 }
 
 auto Solver::purge_redundant_moves(
@@ -82,13 +81,7 @@ auto Solver::pick_move(const std::vector<Move>& filtered_moves) -> Move
 
 auto Solver::print_puzzle(const Puzzle& puzzle) -> void
 {
-#ifdef _WIN32
-    // std::system("cls");
-#else
-    // std::system("clear");
-#endif
-
-    std::cout << "\033[2J\033[H";
+    fmt::print("\033[2J\033[H");
 
     for (size_t row{1}; row <= Tube::get_max_capacity(); ++row) {
         for (const Tube& tube : puzzle.get_tubes()) {
@@ -101,14 +94,14 @@ auto Solver::print_puzzle(const Puzzle& puzzle) -> void
             bool has_balls_up_to_this_row =
                 tube.get_balls().size() > ball_index;
             if (has_balls_up_to_this_row) {
-                std::cout << tube.get_balls().at(ball_index) << ' ';
+                fmt::print("{} ", tube.get_balls().at(ball_index));
             } else {
-                std::cout << "  ";
+                fmt::print("  ");
             }
         }
-        std::cout << '\n';
+        fmt::print("\n");
     }
-    std::cout << '\n';
+    fmt::print("\n");
 }
 
 auto Solver::play_solution(Puzzle& puzzle, int moves_per_second) -> void

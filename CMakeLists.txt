@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.28)
 project(ball_sort LANGUAGES CXX)
 set(TEST_EXECUTABLE_NAME ball_sort_tests)
 
+find_package(fmt REQUIRED)
+
 option(BUILD_TESTS "Build the test executable" OFF)
 
 set(CMAKE_CXX_STANDARD 20)

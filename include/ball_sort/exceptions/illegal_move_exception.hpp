@@ -1,11 +1,10 @@
 #pragma once
 
-#include <exception>
+#include <string>
 
-class IllegalMoveException : public std::exception {
+class IllegalMoveException : public std::runtime_error {
  public:
-    auto what() const noexcept -> const char* override
-    {
-        return "Illegal move";
-    };
+    IllegalMoveException(const std::string& message)
+        : std::runtime_error(message)
+    {}
 };
