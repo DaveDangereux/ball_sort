@@ -2,12 +2,11 @@
 #include "ball_sort/solver.hpp"
 #include <gtest/gtest.h>
 
-TEST(SolverTest, SolidColourToEmptyMoveIsPurged)
+TEST(SolverTest, AllSolvedTubesMeansNoMoves)
 {
-    Puzzle puzzle{{"B", "", "", "BBB"}};
-    std::vector<Move> redundant_move{{0, 1}};
+    Puzzle puzzle{{"AAAA", "BBBB", "", ""}};
+    std::vector<Move> legal_moves{puzzle.generate_legal_moves()};
     std::vector<Move> filtered_moves{
-        Solver::purge_redundant_moves(redundant_move, {}, puzzle)};
-
-    EXPECT_EQ(filtered_moves.size(), 0);
-};
+        Solver::generate_filtered_moves(puzzle, {})};
+    EXPECT_TRUE(filtered_moves.empty());
+}

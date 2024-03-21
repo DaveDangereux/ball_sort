@@ -4,7 +4,7 @@
 
 class IllegalMoveException : public std::runtime_error {
  public:
-    IllegalMoveException(const std::string& message)
+    explicit IllegalMoveException(const std::string& message)
         : std::runtime_error(message)
     {}
 };

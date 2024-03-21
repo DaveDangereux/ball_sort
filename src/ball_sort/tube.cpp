@@ -3,12 +3,14 @@
 #include <ball_sort/exceptions/illegal_puzzle_exception.hpp>
 #include <fmt/core.h>
 #include <string>
+#include <utility>
 
-Tube::Tube(const std::string& balls) : m_balls{balls}
+Tube::Tube(std::string balls) : m_balls{std::move(balls)}
 {
-    if (m_balls.size() > MAX_CAPACITY)
-        throw IllegalPuzzleException(std::string{"Too many balls for tube: "} +
-                                     m_balls);
+    if (m_balls.size() > MAX_CAPACITY) {
+        throw IllegalPuzzleException(
+            fmt::format("Too many balls for tube: {}", m_balls));
+    }
 }
 
 bool Tube::is_empty() const
@@ -23,11 +25,13 @@ bool Tube::is_full() const
 
 bool Tube::is_one_colour() const
 {
-    if (m_balls.empty()) return false;
+    if (m_balls.empty()) {
+        return false;
+    }
 
     const char& first_ball{m_balls.front()};
     return std::all_of(m_balls.begin() + 1, m_balls.end(),
-                       [first_ball](char c) { return c == first_ball; });
+                       [first_ball](char ball) { return ball == first_ball; });
 }
 
 bool Tube::is_solved() const
@@ -42,33 +46,30 @@ const std::string& Tube::get_balls() const
 
 char Tube::get_top_ball() const
 {
-    if (m_balls.size() < 1) {
+    if (m_balls.empty()) {
         throw IllegalMoveException(
             "Tried to get top ball colour from empty tube");
-    } else {
-        return m_balls.back();
     }
+
+    return m_balls.back();
 }
 
 std::string Tube::get_serialised_balls() const
 {
     if (is_full()) {
         return m_balls;
-    } else {
-        size_t gap_size{MAX_CAPACITY - m_balls.size()};
-        return m_balls + std::string(gap_size, ' ');
     }
-}
 
-size_t Tube::get_max_capacity()
-{
-    return MAX_CAPACITY;
+    size_t gap_size{MAX_CAPACITY - m_balls.size()};
+    return m_balls + std::string(gap_size, ' ');
 }
 
 char Tube::take_top_ball()
 {
-    if (m_balls.empty())
+    if (m_balls.empty()) {
         throw IllegalMoveException("Tried to take ball from empty tube");
+    }
+
     char ball{m_balls.back()};
     m_balls.pop_back();
     return ball;

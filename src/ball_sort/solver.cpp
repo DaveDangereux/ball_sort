@@ -16,19 +16,19 @@ void Solver::solve(Puzzle& puzzle, bool display)
     std::unordered_set<Move> excluded_moves{};
 
     while (!puzzle.is_solved()) {
-        const std::vector<Move>& filtered_moves{purge_redundant_moves(
-            puzzle.get_legal_moves(), excluded_moves, puzzle)};
+        const std::vector<Move>& filtered_moves{
+            generate_filtered_moves(puzzle, excluded_moves)};
 
         size_t history_length{puzzle.get_history().size()};
 
-        bool is_dead_end{filtered_moves.size() == 0 && history_length > 0};
+        bool is_dead_end{filtered_moves.empty() && history_length > 0};
         if (is_dead_end) {
             excluded_moves.insert(puzzle.get_history().back());
             puzzle.undo_move();
             continue;
         };
 
-        bool is_unsolvable{filtered_moves.size() == 0 && history_length == 0};
+        bool is_unsolvable{filtered_moves.empty() && history_length == 0};
         if (is_unsolvable) {
             fmt::print("Unsolvable\n");
             return;
@@ -36,7 +36,7 @@ void Solver::solve(Puzzle& puzzle, bool display)
 
         Move move{pick_move(filtered_moves)};
 
-        puzzle.do_move(move.m_origin, move.m_destination);
+        puzzle.do_move(move.get_origin(), move.get_destination());
 
         if (!puzzle.is_novel_puzzle_state()) {
             excluded_moves.insert(move);
@@ -45,7 +45,9 @@ void Solver::solve(Puzzle& puzzle, bool display)
 
         if (display) {
             print_puzzle(puzzle);
-            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+            const size_t milliseconds_per_move{5};
+            std::this_thread::sleep_for(
+                std::chrono::milliseconds(milliseconds_per_move));
         }
     }
 
@@ -53,25 +55,32 @@ void Solver::solve(Puzzle& puzzle, bool display)
 }
 
 std::vector<Move>
-Solver::purge_redundant_moves(const std::vector<Move>& legal_moves,
-                              const std::unordered_set<Move>& excluded_moves,
-                              const Puzzle& puzzle)
+Solver::generate_filtered_moves(const Puzzle& puzzle,
+                                const std::unordered_set<Move>& excluded_moves)
 {
-    std::vector<Move> potential_moves{};
+    std::vector<Move> filtered_moves{};
     const std::vector<Tube>& tubes{puzzle.get_tubes()};
 
-    for (const Move& move : legal_moves) {
-        const Tube& origin{tubes.at(move.m_origin)};
-        const Tube& destination{tubes.at(move.m_destination)};
+    for (const Move& move : puzzle.generate_legal_moves()) {
+        const Tube& origin{tubes.at(move.get_origin())};
+        const Tube& destination{tubes.at(move.get_destination())};
 
-        if (origin.is_solved()) continue;
-        if (origin.is_one_colour() && destination.is_empty()) continue;
-        if (excluded_moves.contains(move)) continue;
+        if (origin.is_solved()) {
+            continue;
+        }
 
-        potential_moves.emplace_back(move);
+        if (origin.is_one_colour() && destination.is_empty()) {
+            continue;
+        }
+
+        if (excluded_moves.contains(move)) {
+            continue;
+        }
+
+        filtered_moves.emplace_back(move);
     }
 
-    return potential_moves;
+    return filtered_moves;
 }
 
 Move Solver::pick_move(const std::vector<Move>& filtered_moves)
@@ -104,17 +113,21 @@ void Solver::print_puzzle(const Puzzle& puzzle)
     fmt::print("\n");
 }
 
-void Solver::play_solution(Puzzle& puzzle, int moves_per_second)
+void Solver::play_solution(Puzzle& puzzle, size_t moves_per_second)
 {
-    if (puzzle.get_history().size() == 0) solve(puzzle);
+    if (puzzle.get_history().empty()) {
+        solve(puzzle, false);
+    }
+
     const std::vector<Move> solution{puzzle.get_history()};
     puzzle.reset();
 
     for (const Move& move : solution) {
         print_puzzle(puzzle);
-        std::this_thread::sleep_for(
-            std::chrono::milliseconds(1000 / moves_per_second));
-        puzzle.do_move(move.m_origin, move.m_destination);
+        const size_t milliseconds_per_second{1000};
+        std::this_thread::sleep_for(std::chrono::milliseconds(
+            milliseconds_per_second / moves_per_second));
+        puzzle.do_move(move.get_origin(), move.get_destination());
     }
 
     print_puzzle(puzzle);
