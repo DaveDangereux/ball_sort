@@ -2,10 +2,8 @@
 #include <ball_sort/exceptions/illegal_move_exception.hpp>
 #include <ball_sort/exceptions/illegal_puzzle_exception.hpp>
 #include <fmt/core.h>
-#include <string>
-#include <utility>
 
-Tube::Tube(std::string balls) : m_balls{std::move(balls)}
+Tube::Tube(std::string_view balls) : m_balls{balls}
 {
     if (m_balls.size() > MAX_CAPACITY) {
         throw IllegalPuzzleException(
