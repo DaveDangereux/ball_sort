@@ -13,15 +13,15 @@ class Puzzle {
     using Tubes = std::vector<Tube>;
 
     explicit Puzzle(const Strings& letter_strings);
-    explicit Puzzle(const std::string& number_sequence);
+    explicit Puzzle(const std::string& number_string);
 
     void do_move(size_t origin, size_t destination);
     void undo_move();
     void reset();
 
-    [[nodiscard]] bool is_solved() const;
     [[nodiscard]] Moves generate_legal_moves() const;
     [[nodiscard]] bool is_novel_puzzle_state() const;
+    [[nodiscard]] bool is_solved() const;
     [[nodiscard]] const Tubes& get_tubes() const;
     [[nodiscard]] const Moves& get_history() const;
 
@@ -31,10 +31,13 @@ class Puzzle {
     [[nodiscard]] static constexpr Tubes
     make_tubes(const Strings& letter_strings);
     [[nodiscard]] static Tubes make_tubes(const std::string& number_string);
+
     [[nodiscard]] std::unordered_map<char, size_t> get_ball_tally() const;
     [[nodiscard]] constexpr std::string get_serialised_state() const;
     [[nodiscard]] bool is_legal_move(size_t origin_index,
                                      size_t destination_index) const;
+
+    static const size_t NUMBER_OF_EMPTY_TUBES{2};
 
     std::vector<Tube> m_initial_state;
     std::vector<Tube> m_tubes;

@@ -12,8 +12,8 @@ Puzzle::Puzzle(const std::vector<std::string>& letter_strings)
     validate_puzzle();
 }
 
-Puzzle::Puzzle(const std::string& number_sequence)
-    : m_initial_state{make_tubes(number_sequence)}, m_tubes{m_initial_state}
+Puzzle::Puzzle(const std::string& number_string)
+    : m_initial_state{make_tubes(number_string)}, m_tubes{m_initial_state}
 {
     validate_puzzle();
 }
@@ -32,26 +32,32 @@ Puzzle::make_tubes(const std::vector<std::string>& letter_strings)
 
 std::vector<Tube> Puzzle::make_tubes(const std::string& number_string)
 {
-    std::vector<Tube> tubes{};
-
-    // Numbers must map to letters
-    const int MIN_NUMBER{1};
-    const int MAX_NUMBER{26};
-
-    auto letter_from_number = [](const int& n) -> char {
-        return static_cast<char>('A' + n - 1);
-    };
-
     std::istringstream number_stream{number_string};
     std::vector<int> numbers{std::istream_iterator<int>{number_stream},
                              std::istream_iterator<int>{}};
 
+    if (numbers.size() % Tube::get_max_capacity() != 0) {
+        throw IllegalPuzzleException(
+            fmt::format("Tried to make puzzle with {} balls, but need an "
+                        "integer multiple of tube capacity {}",
+                        numbers.size(), Tube::get_max_capacity()));
+    }
+
+    auto letter_from_number = [](int n) -> char {
+        return static_cast<char>('A' + n - 1);
+    };
+
+    const int MIN_NUMBER{1};
+    const int MAX_NUMBER{26};
+
     std::string tube_string{};
+    std::vector<Tube> tubes{};
+    tubes.reserve(numbers.size() / 4);
 
     for (int number : numbers) {
         if (number < MIN_NUMBER || number > MAX_NUMBER) {
             throw IllegalPuzzleException(
-                std::string{"Number out of range: " + std::to_string(number)});
+                fmt::format("Number out of range: {}", number));
         }
 
         tube_string.push_back(letter_from_number(number));
@@ -81,7 +87,8 @@ void Puzzle::validate_puzzle() const
         }
     }
 
-    size_t minimum_number_of_tubes{ball_tally.size() + 2};
+    const size_t minimum_number_of_tubes{ball_tally.size() +
+                                         Puzzle::NUMBER_OF_EMPTY_TUBES};
     if (m_tubes.size() < minimum_number_of_tubes) {
         throw IllegalPuzzleException("Not enough tubes");
     }
