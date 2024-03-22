@@ -9,7 +9,7 @@ BinPackParameters: false
 
 # Single Lines
 AllowShortBlocksOnASingleLine: Never
-AllowShortFunctionsOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: InlineOnly
 AllowShortIfStatementsOnASingleLine: AllIfsAndElse
 
 # Brace Wrapping
