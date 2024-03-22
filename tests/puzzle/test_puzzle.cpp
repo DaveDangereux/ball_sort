@@ -2,6 +2,12 @@
 #include "ball_sort/puzzle.hpp"
 #include <gtest/gtest.h>
 
+TEST(PuzzleTest, NumberStringConstructionWithWrongQuantityOfNumbersThrows)
+{
+    std::string number_string{"1 1 1 1 2 2 2 2 3 3"};
+    EXPECT_THROW(Puzzle{number_string}, IllegalPuzzleException);
+}
+
 TEST(PuzzleTest, LessThanMinimumTubesThrowsException)
 {
     std::vector<std::string> tube_strings;
