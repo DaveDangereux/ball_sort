@@ -5,12 +5,15 @@
 struct Move {
     friend std::hash<Move>;
 
-    Move(std::pair<size_t, size_t> move, std::string serialised_state);
+    Move(const std::pair<size_t, size_t> move, std::string serialised_state)
+        : m_origin{move.first}, m_destination{move.second},
+          m_serialised_state{std::move(serialised_state)}
+    {}
 
     bool operator==(const Move& other) const = default;
 
-    [[nodiscard]] size_t get_origin() const;
-    [[nodiscard]] size_t get_destination() const;
+    [[nodiscard]] size_t get_origin() const { return m_origin; };
+    [[nodiscard]] size_t get_destination() const { return m_destination; };
 
  private:
     size_t m_origin;
