@@ -62,8 +62,8 @@ Solver::generate_filtered_moves(const Puzzle& puzzle,
     const std::vector<Tube>& tubes{puzzle.get_tubes()};
 
     for (const Move& move : puzzle.generate_legal_moves()) {
-        const Tube& origin{tubes.at(move.get_origin())};
-        const Tube& destination{tubes.at(move.get_destination())};
+        const Tube& origin{tubes[move.get_origin()]};
+        const Tube& destination{tubes[move.get_destination()]};
 
         if (origin.is_solved()) {
             continue;
@@ -103,7 +103,7 @@ void Solver::print_puzzle(const Puzzle& puzzle)
             bool has_balls_up_to_this_row =
                 tube.get_balls().size() > ball_index;
             if (has_balls_up_to_this_row) {
-                fmt::print("{} ", tube.get_balls().at(ball_index));
+                fmt::print("{} ", tube.get_balls()[ball_index]);
             } else {
                 fmt::print("  ");
             }

@@ -128,8 +128,8 @@ void Puzzle::do_move(const size_t origin, const size_t destination)
             fmt::format("Illegal move: {} to {}", origin, destination));
     }
 
-    char ball{m_tubes.at(origin).take_top_ball()};
-    m_tubes.at(destination).place_ball(ball);
+    char ball{m_tubes[origin].take_top_ball()};
+    m_tubes[destination].place_ball(ball);
 
     const std::string& current_state{get_serialised_state()};
 
@@ -145,8 +145,8 @@ void Puzzle::undo_move()
 {
     const Move& last_move{m_move_history.back()};
 
-    char ball{m_tubes.at(last_move.get_destination()).take_top_ball()};
-    m_tubes.at(last_move.get_origin()).place_ball(ball);
+    char ball{m_tubes[last_move.get_destination()].take_top_ball()};
+    m_tubes[last_move.get_origin()].place_ball(ball);
 
     m_is_novel_puzzle_state = false;
     m_move_history.pop_back();
@@ -188,8 +188,8 @@ bool Puzzle::is_legal_move(const size_t origin_index,
         return false;
     }
 
-    const Tube& origin{m_tubes.at(origin_index)};
-    const Tube& destination{m_tubes.at(destination_index)};
+    const Tube& origin{m_tubes[origin_index]};
+    const Tube& destination{m_tubes[destination_index]};
 
     if (origin.is_empty()) {
         return false;
