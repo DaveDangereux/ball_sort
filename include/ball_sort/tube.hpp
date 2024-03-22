@@ -4,7 +4,7 @@
 
 class Tube {
  public:
-    explicit Tube(std::string balls);
+    explicit Tube(std::string_view balls);
 
     [[nodiscard]] bool operator==(const Tube& other) const = default;
 
@@ -19,10 +19,7 @@ class Tube {
     char take_top_ball();
     void place_ball(char ball);
 
-    static constexpr size_t get_max_capacity()
-    {
-        return MAX_CAPACITY;
-    };
+    static constexpr size_t get_max_capacity() { return MAX_CAPACITY; };
 
  private:
     static constexpr size_t MAX_CAPACITY{4};
