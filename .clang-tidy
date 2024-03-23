@@ -3,6 +3,7 @@ Checks: "
   -altera-struct-pack-align
   -altera-unroll-loops,
   -fuchsia-default-arguments-calls,
+  -fuchsia-default-arguments-declarations,
   -fuchsia-multiple-inheritance,
   -fuchsia-overloaded-operator,
   -llvmlibc-callee-namespace,

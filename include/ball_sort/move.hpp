@@ -5,7 +5,8 @@
 struct Move {
     friend std::hash<Move>;
 
-    Move(const std::pair<size_t, size_t> move, std::string serialised_state)
+    explicit Move(const std::pair<size_t, size_t> move,
+                  std::string serialised_state = "")
         : m_origin{move.first}, m_destination{move.second},
           m_serialised_state{std::move(serialised_state)}
     {}
