@@ -1,6 +1,14 @@
 #!/bin/bash
 
+safe() {
+	$@
+	if [ $? -ne 0 ]; then
+		echo "Build error"
+		exit 1
+	fi
+}
+
 rm -rf build
-conan install . -s build_type=Debug --build=missing
-cmake -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=./Debug/generators/conan_toolchain.cmake -B build
-cmake --build build --target ball_sort_tests
+safe conan install . -s build_type=Debug --build=missing -s compiler.cppstd=20
+safe cmake -DENABLE_WARNINGS=ON -DENABLE_TESTING=ON --preset conan-debug
+safe cmake --build --preset conan-debug --target ball_sort_tests
