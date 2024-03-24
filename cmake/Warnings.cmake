@@ -7,12 +7,18 @@ function(target_set_warnings)
                           "${multiValueArgs}" ${ARGN})
 
     if(NOT ${TARGET_SET_WARNINGS_ENABLE})
-        message("[FLAGS] Warnings disabled for: ${TARGET_SET_WARNINGS_TARGET}")
+        message(
+            STATUS
+                "[WARNINGS] Warnings disabled for: ${TARGET_SET_WARNINGS_TARGET}"
+        )
         return()
     endif()
 
-    message("[FLAGS] Warnings active for: ${TARGET_SET_WARNINGS_TARGET}")
-    message("[FLAGS] Warnings as errors: ${TARGET_SET_WARNINGS_AS_ERRORS}")
+    message(
+        STATUS "[WARNINGS] Warnings active for: ${TARGET_SET_WARNINGS_TARGET}")
+    message(
+        STATUS "[WARNINGS] Warnings as errors: ${TARGET_SET_WARNINGS_AS_ERRORS}"
+    )
 
     set(MSVC_WARNINGS
         # Baseline
@@ -78,6 +84,11 @@ function(target_set_warnings)
         set(WARNINGS ${CLANG_WARNINGS})
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
         set(WARNINGS ${GCC_WARNINGS})
+    else()
+        message(
+            WARNING
+                "target_set_warnings CMake function not supported for ${CMAKE_CXX_COMPILER_ID} compiler"
+        )
     endif()
 
     target_compile_options(${TARGET_SET_WARNINGS_TARGET} PRIVATE ${WARNINGS})
