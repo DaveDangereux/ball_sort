@@ -5,7 +5,7 @@
 
 class Solver {
  public:
-    static void solve(Puzzle& puzzle, bool display);
+    static void solve(Puzzle& puzzle, bool display = false);
     static void print_puzzle(const Puzzle& puzzle);
     static void play_solution(Puzzle& puzzle, size_t moves_per_second);
 
