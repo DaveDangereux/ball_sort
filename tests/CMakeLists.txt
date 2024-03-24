@@ -7,7 +7,8 @@ file(GLOB_RECURSE TEST_SOURCE_FILES CONFIGURE_DEPENDS
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 add_executable(${TEST_EXECUTABLE_NAME} ${TEST_SOURCE_FILES} ${SOURCE_FILES})
-target_link_libraries(${TEST_EXECUTABLE_NAME} gtest::gtest fmt::fmt)
+target_link_libraries(${TEST_EXECUTABLE_NAME} GTest::gtest_main
+                      GTest::gmock_main fmt::fmt)
 target_include_directories(${TEST_EXECUTABLE_NAME}
                            PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
