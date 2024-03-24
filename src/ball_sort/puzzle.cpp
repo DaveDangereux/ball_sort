@@ -101,7 +101,7 @@ void Puzzle::validate_puzzle() const
 std::vector<Move> Puzzle::generate_legal_moves() const
 {
     std::vector<Move> legal_moves{};
-    const std::string& current_state = get_serialised_state();
+    const std::string current_state{get_serialised_state()};
 
     // Iterates over every combination of origin and destination tube indices
     for (size_t origin{0}; origin < m_tubes.size(); ++origin) {
@@ -126,7 +126,7 @@ void Puzzle::do_move(const size_t origin, const size_t destination)
             destination, maximum_tube_index));
     }
 
-    const std::string& state_prior_to_move{get_serialised_state()};
+    const std::string state_prior_to_move{get_serialised_state()};
     m_move_history.emplace_back(std::pair{origin, destination},
                                 state_prior_to_move);
 
@@ -138,7 +138,7 @@ void Puzzle::do_move(const size_t origin, const size_t destination)
     char ball{m_tubes[origin].take_top_ball()};
     m_tubes[destination].place_ball(ball);
 
-    const std::string& current_state{get_serialised_state()};
+    const std::string current_state{get_serialised_state()};
 
     if (m_visited_puzzle_states.contains(current_state)) {
         m_is_novel_puzzle_state = false;
