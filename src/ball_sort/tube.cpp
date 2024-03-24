@@ -37,7 +37,7 @@ bool Tube::is_solved() const
     return is_full() && is_one_colour();
 }
 
-const std::string& Tube::get_balls() const
+std::string Tube::get_balls() const
 {
     return m_balls;
 }
