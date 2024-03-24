@@ -21,12 +21,14 @@ Puzzle::Puzzle(const std::string& number_string)
 constexpr std::vector<Tube>
 Puzzle::make_tubes(const std::vector<std::string>& letter_strings)
 {
+    auto make_tube_from_string{
+        [](const std::string& letter_string) { return Tube(letter_string); }};
+
     std::vector<Tube> tubes{};
     tubes.reserve(letter_strings.size());
 
-    for (const std::string& ball_string : letter_strings) {
-        tubes.emplace_back(ball_string);
-    }
+    std::transform(letter_strings.begin(), letter_strings.end(),
+                   std::back_inserter(tubes), make_tube_from_string);
     return tubes;
 }
 
