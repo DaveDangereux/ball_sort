@@ -1,5 +1,6 @@
 #include "ball_sort/solver.hpp"
 #include "ball_sort/move.hpp"
+#include "ball_sort/timer.hpp"
 #include "ball_sort/tube.hpp"
 #include <fmt/core.h>
 #include <thread>
@@ -10,11 +11,11 @@ void Solver::solve(Puzzle& puzzle, bool display)
 
     if (display) {
         print_puzzle(puzzle);
-        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
     std::unordered_set<Move> excluded_moves{};
-
+    Timer timer{};
+    timer.start();
     while (!puzzle.is_solved()) {
         const std::vector<Move>& filtered_moves{
             generate_filtered_moves(puzzle, excluded_moves)};
@@ -50,8 +51,10 @@ void Solver::solve(Puzzle& puzzle, bool display)
                 std::chrono::milliseconds(milliseconds_per_move));
         }
     }
+    timer.stop();
 
-    fmt::print("Solved in {} moves.\n", puzzle.get_history().size());
+    fmt::print("Solved in {} and {} moves.\n", timer.get_time(),
+               puzzle.get_history().size());
 }
 
 std::vector<Move>
