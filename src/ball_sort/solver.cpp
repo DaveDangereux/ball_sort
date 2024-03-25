@@ -90,11 +90,6 @@ Move solver::pick_move(const std::vector<Move>& filtered_moves)
     return filtered_moves.front();
 }
 
-void solver::clear_screen()
-{
-    fmt::print("\033[2J\033[H");
-}
-
 void solver::print_puzzle(const Puzzle& puzzle,
                           std::ostream& output_stream,
                           const ClearCallback& clear_callback)
@@ -143,6 +138,11 @@ void solver::play_solution(Puzzle& puzzle, size_t moves_per_second)
     }
 
     print_puzzle(puzzle);
+}
+
+void solver::clear_screen()
+{
+    fmt::print("\033[2J\033[H");
 }
 
 } // namespace ballsort

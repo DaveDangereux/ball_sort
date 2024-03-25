@@ -16,6 +16,13 @@ Puzzle::Puzzle(const std::string& number_string)
     validate_puzzle();
 }
 
+void Puzzle::reset()
+{
+    m_tubes = m_initial_state;
+    m_move_history.clear();
+    m_visited_puzzle_states.clear();
+}
+
 bool Puzzle::is_novel_puzzle_state() const
 {
     return m_is_novel_puzzle_state;
@@ -26,13 +33,6 @@ bool Puzzle::is_solved() const
     return std::ranges::all_of(m_tubes, [](const Tube& tube) {
         return tube.is_empty() || tube.is_solved();
     });
-}
-
-void Puzzle::reset()
-{
-    m_tubes = m_initial_state;
-    m_move_history.clear();
-    m_visited_puzzle_states.clear();
 }
 
 const std::vector<Tube>& Puzzle::get_tubes() const
