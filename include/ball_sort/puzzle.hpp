@@ -6,6 +6,8 @@
 #include <unordered_set>
 #include <vector>
 
+namespace ballsort {
+
 class Puzzle {
  public:
     using Strings = std::vector<std::string>;
@@ -44,3 +46,5 @@ class Puzzle {
     std::unordered_set<std::string> m_visited_puzzle_states;
     bool m_is_novel_puzzle_state{true};
 };
+
+} // namespace ballsort

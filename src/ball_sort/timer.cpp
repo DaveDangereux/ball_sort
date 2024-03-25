@@ -3,6 +3,8 @@
 #include <iomanip>
 #include <sstream>
 
+namespace ballsort {
+
 void Timer::start()
 {
     m_start_time = std::chrono::steady_clock::now();
@@ -31,3 +33,5 @@ std::string Timer::get_time()
     string_stream << m_duration.count();
     return fmt::format("{} seconds", string_stream.str());
 }
+
+} // namespace ballsort

@@ -7,6 +7,8 @@
 #include <iostream>
 #include <thread>
 
+namespace ballsort {
+
 void solver::solve(Puzzle& puzzle, bool display)
 {
     puzzle.reset();
@@ -142,3 +144,5 @@ void solver::play_solution(Puzzle& puzzle, size_t moves_per_second)
 
     print_puzzle(puzzle);
 }
+
+} // namespace ballsort

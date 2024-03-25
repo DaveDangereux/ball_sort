@@ -2,6 +2,8 @@
 
 #include <string>
 
+namespace ballsort {
+
 class Tube {
  public:
     explicit Tube(std::string_view balls);
@@ -26,3 +28,5 @@ class Tube {
 
     std::string m_balls;
 };
+
+}; // namespace ballsort

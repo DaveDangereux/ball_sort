@@ -1,6 +1,8 @@
 #include "ball_sort/exceptions/illegal_move_exception.hpp"
 #include "ball_sort/puzzle.hpp"
 
+namespace ballsort {
+
 void Puzzle::undo_move()
 {
     if (m_move_history.empty()) {
@@ -15,3 +17,5 @@ void Puzzle::undo_move()
     m_is_novel_puzzle_state = false;
     m_move_history.pop_back();
 }
+
+} // namespace ballsort

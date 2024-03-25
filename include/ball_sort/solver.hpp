@@ -2,7 +2,7 @@
 
 #include "ball_sort/puzzle.hpp"
 
-namespace solver {
+namespace ballsort::solver {
 
 using ClearCallback = std::function<void()>;
 
@@ -24,4 +24,4 @@ void play_solution(Puzzle& puzzle, size_t moves_per_second);
 
 void clear_screen();
 
-} // namespace solver
+} // namespace ballsort::solver
