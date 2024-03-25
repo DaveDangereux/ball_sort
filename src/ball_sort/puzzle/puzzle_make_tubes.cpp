@@ -36,15 +36,15 @@ std::vector<Tube> Puzzle::make_tubes(const std::string& number_string)
         return static_cast<char>('A' + n - 1);
     };
 
-    const int MIN_NUMBER{1};
-    const int MAX_NUMBER{26};
+    const int min_number{1};
+    const int max_number{26};
 
     std::string tube_string{};
     std::vector<Tube> tubes{};
     tubes.reserve(numbers.size() / 4);
 
     for (int number : numbers) {
-        if (number < MIN_NUMBER || number > MAX_NUMBER) {
+        if (number < min_number || number > max_number) {
             throw IllegalPuzzleException(
                 fmt::format("Number out of range: {}", number));
         }

@@ -21,10 +21,10 @@ class Tube {
 
     void place_ball(char ball);
 
-    static constexpr size_t get_max_capacity() { return MAX_CAPACITY; };
+    static constexpr size_t get_max_capacity() { return max_capacity; };
 
  private:
-    static constexpr size_t MAX_CAPACITY{4};
+    static constexpr size_t max_capacity{4};
 
     std::string m_balls;
 };
