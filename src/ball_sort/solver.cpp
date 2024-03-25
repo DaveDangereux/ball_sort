@@ -11,7 +11,7 @@ void solver::solve(Puzzle& puzzle, bool display)
 
     if (display) { print_puzzle(puzzle); }
 
-    size_t estimated_excluded_move_count{1500};
+    const size_t estimated_excluded_move_count{1500};
 
     std::unordered_set<Move> excluded_moves{};
     excluded_moves.reserve(estimated_excluded_move_count);
