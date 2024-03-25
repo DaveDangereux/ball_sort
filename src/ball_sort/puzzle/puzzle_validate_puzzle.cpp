@@ -5,8 +5,6 @@ void Puzzle::validate_puzzle() const
 {
     std::unordered_map<char, size_t> ball_tally{get_ball_tally()};
 
-    bool is_valid_puzzle{true};
-
     for (const auto& tally : ball_tally) {
         bool is_wrong_ball_quantity{tally.second != Tube::get_max_capacity()};
         if (is_wrong_ball_quantity) {
@@ -20,6 +18,4 @@ void Puzzle::validate_puzzle() const
     if (m_tubes.size() < minimum_number_of_tubes) {
         throw IllegalPuzzleException("Not enough tubes");
     }
-
-    if (!is_valid_puzzle) { throw IllegalPuzzleException("Puzzle is illegal"); }
 }
