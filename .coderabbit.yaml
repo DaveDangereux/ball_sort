@@ -5,5 +5,7 @@ reviews:
   poem: false
   auto_review:
     enabled: true
+    base_branches:
+      - ".*"
 chat:
   auto_reply: false
