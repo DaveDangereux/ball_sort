@@ -4,6 +4,6 @@
 TEST(SolverTest, AllSolvedTubesMeansNoMoves)
 {
     Puzzle puzzle{{"AAAA", "BBBB", "", ""}};
-    Solver::solve(puzzle, false);
+    solver::solve(puzzle, false);
     EXPECT_TRUE(puzzle.get_history().empty());
 }

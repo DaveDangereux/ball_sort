@@ -5,13 +5,11 @@
 #include <fmt/core.h>
 #include <thread>
 
-void Solver::solve(Puzzle& puzzle, bool display)
+void solver::solve(Puzzle& puzzle, bool display)
 {
     puzzle.reset();
 
-    if (display) {
-        print_puzzle(puzzle);
-    }
+    if (display) { print_puzzle(puzzle); }
 
     std::unordered_set<Move> excluded_moves{};
     Timer timer{};
@@ -58,27 +56,20 @@ void Solver::solve(Puzzle& puzzle, bool display)
 }
 
 std::vector<Move>
-Solver::generate_filtered_moves(const Puzzle& puzzle,
+solver::generate_filtered_moves(const Puzzle& puzzle,
                                 const std::unordered_set<Move>& excluded_moves)
 {
-    std::vector<Move> filtered_moves{};
     const std::vector<Tube>& tubes{puzzle.get_tubes()};
+
+    std::vector<Move> filtered_moves{};
 
     for (const Move& move : puzzle.generate_legal_moves()) {
         const Tube& origin{tubes[move.get_origin()]};
         const Tube& destination{tubes[move.get_destination()]};
 
-        if (origin.is_solved()) {
-            continue;
-        }
-
-        if (origin.is_one_colour() && destination.is_empty()) {
-            continue;
-        }
-
-        if (excluded_moves.contains(move)) {
-            continue;
-        }
+        if (origin.is_solved()) { continue; }
+        if (origin.is_one_colour() && destination.is_empty()) { continue; }
+        if (excluded_moves.contains(move)) { continue; }
 
         filtered_moves.emplace_back(move);
     }
@@ -86,12 +77,12 @@ Solver::generate_filtered_moves(const Puzzle& puzzle,
     return filtered_moves;
 }
 
-Move Solver::pick_move(const std::vector<Move>& filtered_moves)
+Move solver::pick_move(const std::vector<Move>& filtered_moves)
 {
     return filtered_moves.front();
 }
 
-void Solver::print_puzzle(const Puzzle& puzzle)
+void solver::print_puzzle(const Puzzle& puzzle)
 {
     fmt::print("\033[2J\033[H");
 
@@ -116,11 +107,9 @@ void Solver::print_puzzle(const Puzzle& puzzle)
     fmt::print("\n");
 }
 
-void Solver::play_solution(Puzzle& puzzle, size_t moves_per_second)
+void solver::play_solution(Puzzle& puzzle, size_t moves_per_second)
 {
-    if (puzzle.get_history().empty()) {
-        solve(puzzle, false);
-    }
+    if (puzzle.get_history().empty()) { solve(puzzle, false); }
 
     const std::vector<Move> solution{puzzle.get_history()};
     puzzle.reset();
