@@ -5,37 +5,37 @@
 using ballsort::IllegalMoveException;
 using ballsort::Puzzle;
 
-TEST(PuzzleDoMoveTest, MovingFromOutOfBoundsOriginThrowsException)
+TEST(PuzzleTestDoMove, MovingFromOutOfBoundsOriginThrowsException)
 {
     Puzzle puzzle{{"AABB", "BBAA", "", ""}};
     EXPECT_THROW(puzzle.do_move(4, 3), IllegalMoveException);
 }
 
-TEST(PuzzleDoMoveTest, MovingFromEmptyTubeThrowsException)
+TEST(PuzzleTestDoMove, MovingFromEmptyTubeThrowsException)
 {
     Puzzle puzzle{{"", "", "AAAA", "BBBB"}};
     EXPECT_THROW(puzzle.do_move(0, 1), IllegalMoveException);
 }
 
-TEST(PuzzleDoMoveTest, MovingToOutOfBoundsDestinationThrowsException)
+TEST(PuzzleTestDoMove, MovingToOutOfBoundsDestinationThrowsException)
 {
     Puzzle puzzle{{"AABB", "BBAA", "", ""}};
     EXPECT_THROW(puzzle.do_move(3, 4), IllegalMoveException);
 }
 
-TEST(PuzzleDoMoveTest, MovingToSameTubeThrowsException)
+TEST(PuzzleTestDoMove, MovingToSameTubeThrowsException)
 {
     Puzzle puzzle{{"AAAB", "BBBA", "", ""}};
     EXPECT_THROW(puzzle.do_move(0, 0), IllegalMoveException);
 }
 
-TEST(PuzzleDoMoveTest, MovingToWrongColourTubeThrowsException)
+TEST(PuzzleTestDoMove, MovingToWrongColourTubeThrowsException)
 {
     Puzzle puzzle{{"A", "BBB", "AAA", "B"}};
     EXPECT_THROW(puzzle.do_move(0, 1), IllegalMoveException);
 }
 
-TEST(PuzzleDoMoveTest, MovingToFullTubeThrowsException)
+TEST(PuzzleTestDoMove, MovingToFullTubeThrowsException)
 {
     Puzzle puzzle{{"ABBB", "AAAB", "", ""}};
     EXPECT_THROW(puzzle.do_move(0, 1), IllegalMoveException);
