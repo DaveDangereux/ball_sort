@@ -16,7 +16,7 @@ void Puzzle::validate_puzzle() const
     }
 
     const size_t minimum_number_of_tubes{ball_tally.size() +
-                                         Puzzle::NUMBER_OF_EMPTY_TUBES};
+                                         Puzzle::number_of_empty_tubes};
     if (m_tubes.size() < minimum_number_of_tubes) {
         throw IllegalPuzzleException("Not enough tubes");
     }

@@ -39,7 +39,7 @@ class Puzzle {
     [[nodiscard]] bool is_legal_move(size_t origin_index,
                                      size_t destination_index) const;
 
-    static const size_t NUMBER_OF_EMPTY_TUBES{2};
+    static const size_t number_of_empty_tubes{2};
 
     std::vector<Tube> m_initial_state;
     std::vector<Tube> m_tubes;
