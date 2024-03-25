@@ -1,3 +1,4 @@
+---
 Checks: "
   *,
   -altera-struct-pack-align
@@ -6,9 +7,10 @@ Checks: "
   -fuchsia-default-arguments-declarations,
   -fuchsia-multiple-inheritance,
   -fuchsia-overloaded-operator,
+  -llvm-else-after-return,
   -llvmlibc-callee-namespace,
   -llvmlibc-implementation-in-namespace
   -llvmlibc-inline-function-decl,
   -llvmlibc-restrict-system-libc-headers,
   -modernize-use-trailing-return-type,
-"
+  -readability-else-after-return"

@@ -8,7 +8,7 @@ AlwaysBreakTemplateDeclarations: Yes
 BinPackParameters: false
 
 # Single Lines
-AllowShortBlocksOnASingleLine: Never
+AllowShortBlocksOnASingleLine: Always
 AllowShortFunctionsOnASingleLine: InlineOnly
 AllowShortIfStatementsOnASingleLine: AllIfsAndElse
 
