@@ -55,11 +55,10 @@ Because this method is intended to produce a puzzle in its initial state, it
 will automatically add the necessary extra empty tubes to make the puzzle
 legal.
 
-To solve the puzzle, the puzzle object is passed to the `solve` method of the
-static `Solver` class.
+To solve the puzzle, the puzzle object is passed to the `solve` function.
 
 ```cpp
-Solver::solve(puzzle);
+ballsort::solver::solve(puzzle);
 ```
 
 This method can take an additional boolean parameter that determines whether to
