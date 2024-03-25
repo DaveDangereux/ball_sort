@@ -7,7 +7,7 @@ namespace ballsort {
 
 Tube::Tube(std::string_view balls) : m_balls{balls}
 {
-    if (m_balls.size() > MAX_CAPACITY) {
+    if (m_balls.size() > max_capacity) {
         throw IllegalPuzzleException(
             fmt::format("Too many balls for tube: {}", m_balls));
     }
@@ -20,7 +20,7 @@ bool Tube::is_empty() const
 
 bool Tube::is_full() const
 {
-    return m_balls.size() == MAX_CAPACITY;
+    return m_balls.size() == max_capacity;
 }
 
 bool Tube::is_one_colour() const
@@ -67,7 +67,7 @@ std::string Tube::get_serialised_balls() const
 {
     if (is_full()) { return m_balls; }
 
-    size_t gap_size{MAX_CAPACITY - m_balls.size()};
+    size_t gap_size{max_capacity - m_balls.size()};
     return m_balls + std::string(gap_size, ' ');
 }
 

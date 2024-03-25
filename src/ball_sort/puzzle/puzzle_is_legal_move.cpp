@@ -11,7 +11,6 @@ bool Puzzle::is_legal_move(const size_t origin_index,
     const Tube& destination{m_tubes[destination_index]};
 
     if (origin.is_empty()) { return false; }
-
     if (destination.is_full()) { return false; }
 
     return (destination.is_empty() ||
