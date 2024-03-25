@@ -1,6 +1,8 @@
 #include "ball_sort/tube.hpp"
 #include <gtest/gtest.h>
 
+using ballsort::Tube;
+
 TEST(TubeIsOneColourTest, OneCharTypeIsOneColour)
 {
     std::vector<Tube> one_colour_tubes{Tube{"AAAA"}, Tube{"BBB"}, Tube{"CC"},

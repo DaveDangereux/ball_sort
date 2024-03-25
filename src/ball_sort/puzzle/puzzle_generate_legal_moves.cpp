@@ -1,5 +1,7 @@
 #include "ball_sort/puzzle.hpp"
 
+namespace ballsort {
+
 std::vector<Move> Puzzle::generate_legal_moves() const
 {
     std::vector<Move> legal_moves{};
@@ -18,3 +20,5 @@ std::vector<Move> Puzzle::generate_legal_moves() const
 
     return legal_moves;
 }
+
+} // namespace ballsort

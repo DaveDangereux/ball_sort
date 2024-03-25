@@ -3,6 +3,10 @@
 #include "ball_sort/puzzle.hpp"
 #include <gtest/gtest.h>
 
+using ballsort::IllegalMoveException;
+using ballsort::IllegalPuzzleException;
+using ballsort::Puzzle;
+
 TEST(PuzzleTest, NumberStringConstructionWithWrongQuantityOfNumbersThrows)
 {
     std::string number_string{"1 1 1 1 2 2 2 2 3 3"};

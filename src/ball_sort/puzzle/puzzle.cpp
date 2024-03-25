@@ -2,6 +2,8 @@
 #include "ball_sort/tube.hpp"
 #include <fmt/core.h>
 
+namespace ballsort {
+
 Puzzle::Puzzle(const std::vector<std::string>& letter_strings)
     : m_initial_state{make_tubes(letter_strings)}, m_tubes{m_initial_state}
 {
@@ -54,3 +56,5 @@ std::string Puzzle::get_serialised_state() const
 
     return serialised_state;
 }
+
+} // namespace ballsort

@@ -3,6 +3,10 @@
 #include "ball_sort/tube.hpp"
 #include <gtest/gtest.h>
 
+using ballsort::IllegalMoveException;
+using ballsort::IllegalPuzzleException;
+using ballsort::Tube;
+
 TEST(TubeTest, IsEmpty)
 {
     Tube tube{""};

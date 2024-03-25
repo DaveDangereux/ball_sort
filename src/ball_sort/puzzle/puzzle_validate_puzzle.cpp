@@ -1,6 +1,8 @@
 #include "ball_sort/puzzle.hpp"
 #include "ball_sort/exceptions/illegal_puzzle_exception.hpp"
 
+namespace ballsort {
+
 void Puzzle::validate_puzzle() const
 {
     std::unordered_map<char, size_t> ball_tally{get_ball_tally()};
@@ -19,3 +21,5 @@ void Puzzle::validate_puzzle() const
         throw IllegalPuzzleException("Not enough tubes");
     }
 }
+
+} // namespace ballsort

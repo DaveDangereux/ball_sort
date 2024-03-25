@@ -1,5 +1,7 @@
 #include "ball_sort/puzzle.hpp"
 
+namespace ballsort {
+
 bool Puzzle::is_legal_move(const size_t origin_index,
                            const size_t destination_index) const
 {
@@ -15,3 +17,5 @@ bool Puzzle::is_legal_move(const size_t origin_index,
     return (destination.is_empty() ||
             origin.get_top_ball() == destination.get_top_ball());
 }
+
+} // namespace ballsort

@@ -1,6 +1,8 @@
 #include "ball_sort/move.hpp"
 #include <gtest/gtest.h>
 
+using ballsort::Move;
+
 TEST(MoveTest, OriginAndDestinationAreCorrectWhenConstructed)
 {
     size_t origin{0};

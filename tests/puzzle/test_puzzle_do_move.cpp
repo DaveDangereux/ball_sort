@@ -2,6 +2,9 @@
 #include "ball_sort/puzzle.hpp"
 #include <gtest/gtest.h>
 
+using ballsort::IllegalMoveException;
+using ballsort::Puzzle;
+
 TEST(PuzzleDoMoveTest, MovingFromOutOfBoundsOriginThrowsException)
 {
     Puzzle puzzle{{"AABB", "BBAA", "", ""}};

@@ -3,6 +3,8 @@
 #include <gtest/gtest.h>
 #include <thread>
 
+using ballsort::Timer;
+
 TEST(TimerTest, GetTimeFormatsAsSecondsIfGreaterThanOneSecond)
 {
     using ::testing::HasSubstr;

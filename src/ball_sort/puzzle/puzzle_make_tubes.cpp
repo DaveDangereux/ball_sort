@@ -3,6 +3,8 @@
 #include <fmt/core.h>
 #include <sstream>
 
+namespace ballsort {
+
 std::vector<Tube>
 Puzzle::make_tubes(const std::vector<std::string>& letter_strings)
 {
@@ -59,3 +61,5 @@ std::vector<Tube> Puzzle::make_tubes(const std::string& number_string)
 
     return tubes;
 }
+
+} // namespace ballsort
