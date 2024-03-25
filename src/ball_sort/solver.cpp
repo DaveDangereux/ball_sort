@@ -3,6 +3,8 @@
 #include "ball_sort/timer.hpp"
 #include "ball_sort/tube.hpp"
 #include <fmt/core.h>
+#include <fmt/ostream.h>
+#include <iostream>
 #include <thread>
 
 void solver::solve(Puzzle& puzzle, bool display)
@@ -86,9 +88,16 @@ Move solver::pick_move(const std::vector<Move>& filtered_moves)
     return filtered_moves.front();
 }
 
-void solver::print_puzzle(const Puzzle& puzzle)
+void solver::clear_screen()
 {
     fmt::print("\033[2J\033[H");
+}
+
+void solver::print_puzzle(const Puzzle& puzzle,
+                          std::ostream& output_stream,
+                          const ClearCallback& clear_callback)
+{
+    clear_callback();
 
     for (size_t row{1}; row <= Tube::get_max_capacity(); ++row) {
         for (const Tube& tube : puzzle.get_tubes()) {
@@ -101,14 +110,19 @@ void solver::print_puzzle(const Puzzle& puzzle)
             bool has_balls_up_to_this_row =
                 tube.get_balls().size() > ball_index;
             if (has_balls_up_to_this_row) {
-                fmt::print("{} ", tube.get_balls()[ball_index]);
+                fmt::print(output_stream, "{} ", tube.get_balls()[ball_index]);
             } else {
-                fmt::print("  ");
+                fmt::print(output_stream, "  ");
             }
         }
-        fmt::print("\n");
+        fmt::print(output_stream, "\n");
     }
-    fmt::print("\n");
+    fmt::print(output_stream, "\n");
+}
+
+void solver::print_puzzle(const Puzzle& puzzle)
+{
+    print_puzzle(puzzle, std::cout, clear_screen);
 }
 
 void solver::play_solution(Puzzle& puzzle, size_t moves_per_second)
