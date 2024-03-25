@@ -3,6 +3,18 @@
 
 using ballsort::Tube;
 
+TEST(TubeTest, IsEmpty)
+{
+    Tube tube{""};
+    EXPECT_TRUE(tube.is_empty());
+}
+
+TEST(TubeTest, FourBallsIsFull)
+{
+    Tube tube{"ABCD"};
+    EXPECT_TRUE(tube.is_full());
+}
+
 TEST(TubeIsOneColourTest, OneCharTypeIsOneColour)
 {
     std::vector<Tube> one_colour_tubes{Tube{"AAAA"}, Tube{"BBB"}, Tube{"CC"},
@@ -26,4 +38,16 @@ TEST(TubeTest, SingleBallTubeIsOneColour)
 {
     Tube tube{"A"};
     EXPECT_TRUE(tube.is_one_colour());
+}
+
+TEST(TubeTest, FourBallsOneColourIsSolved)
+{
+    Tube tube("AAAA");
+    EXPECT_TRUE(tube.is_solved());
+}
+
+TEST(TubeTest, ThreeBallsOneColourIsNotSolved)
+{
+    Tube tube("AAA");
+    EXPECT_FALSE(tube.is_solved());
 }

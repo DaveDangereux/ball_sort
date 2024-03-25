@@ -15,10 +15,10 @@ class Tube {
     [[nodiscard]] bool is_one_colour() const;
     [[nodiscard]] bool is_solved() const;
     [[nodiscard]] char get_top_ball() const;
+    [[nodiscard]] char take_top_ball();
     [[nodiscard]] std::string get_balls() const;
     [[nodiscard]] std::string get_serialised_balls() const;
 
-    char take_top_ball();
     void place_ball(char ball);
 
     static constexpr size_t get_max_capacity() { return MAX_CAPACITY; };

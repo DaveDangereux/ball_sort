@@ -21,7 +21,6 @@ void print_puzzle(
 
 void print_puzzle(const Puzzle& puzzle);
 void play_solution(Puzzle& puzzle, size_t moves_per_second);
-
 void clear_screen();
 
 } // namespace ballsort::solver

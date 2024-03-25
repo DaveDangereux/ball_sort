@@ -35,6 +35,7 @@ class Puzzle {
 
     [[nodiscard]] std::unordered_map<char, size_t> get_ball_tally() const;
     [[nodiscard]] std::string get_serialised_state() const;
+
     [[nodiscard]] bool is_legal_move(size_t origin_index,
                                      size_t destination_index) const;
 
