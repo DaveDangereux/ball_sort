@@ -3,19 +3,19 @@
 
 using ballsort::Tube;
 
-TEST(TubeTest, IsEmpty)
+TEST(TubeTestBooleans, IsEmpty)
 {
     Tube tube{""};
     EXPECT_TRUE(tube.is_empty());
 }
 
-TEST(TubeTest, FourBallsIsFull)
+TEST(TubeTestBooleans, FourBallsIsFull)
 {
     Tube tube{"ABCD"};
     EXPECT_TRUE(tube.is_full());
 }
 
-TEST(TubeIsOneColourTest, OneCharTypeIsOneColour)
+TEST(TubeTestBooleans, OneCharTypeIsOneColour)
 {
     std::vector<Tube> one_colour_tubes{Tube{"AAAA"}, Tube{"BBB"}, Tube{"CC"},
                                        Tube{"D"}};
@@ -28,25 +28,25 @@ TEST(TubeIsOneColourTest, OneCharTypeIsOneColour)
     EXPECT_FALSE(multi_colour_tube.is_one_colour());
 }
 
-TEST(TubeIsOneColourTest, EmptyTubeIsNotOneColour)
+TEST(TubeTestBooleans, EmptyTubeIsNotOneColour)
 {
     Tube tube{""};
     EXPECT_FALSE(tube.is_one_colour());
 }
 
-TEST(TubeTest, SingleBallTubeIsOneColour)
+TEST(TubeTestBooleans, SingleBallTubeIsOneColour)
 {
     Tube tube{"A"};
     EXPECT_TRUE(tube.is_one_colour());
 }
 
-TEST(TubeTest, FourBallsOneColourIsSolved)
+TEST(TubeTestBooleans, FourBallsOneColourIsSolved)
 {
     Tube tube("AAAA");
     EXPECT_TRUE(tube.is_solved());
 }
 
-TEST(TubeTest, ThreeBallsOneColourIsNotSolved)
+TEST(TubeTestBooleans, ThreeBallsOneColourIsNotSolved)
 {
     Tube tube("AAA");
     EXPECT_FALSE(tube.is_solved());
