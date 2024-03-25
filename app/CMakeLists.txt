@@ -1,4 +1,6 @@
-file(GLOB SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/**/*.cpp)
+file(GLOB_RECURSE SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+
+print(${SOURCE_FILES})
 
 add_executable(${EXECUTABLE_NAME} app.cpp ${SOURCE_FILES})
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE fmt::fmt)
