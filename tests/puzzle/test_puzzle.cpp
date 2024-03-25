@@ -1,3 +1,4 @@
+#include "ball_sort/exceptions/illegal_move_exception.hpp"
 #include "ball_sort/exceptions/illegal_puzzle_exception.hpp"
 #include "ball_sort/puzzle.hpp"
 #include <gtest/gtest.h>
@@ -26,4 +27,10 @@ TEST(PuzzleTest, FailedPuzzleHasNoLegalMoves)
 {
     Puzzle puzzle{{"BBBA", "CCCA", "DDDA", "AB", "C", "D"}};
     EXPECT_TRUE(puzzle.generate_legal_moves().empty());
+}
+
+TEST(PuzzleTest, UndoingMoveWithNoHistoryThrowsException)
+{
+    Puzzle puzzle{{"AAA", "A", "BBBB", ""}};
+    EXPECT_THROW(puzzle.undo_move(), IllegalMoveException);
 }

@@ -1,7 +1,12 @@
+#include "ball_sort/exceptions/illegal_move_exception.hpp"
 #include "ball_sort/puzzle.hpp"
 
 void Puzzle::undo_move()
 {
+    if (m_move_history.empty()) {
+        throw IllegalMoveException("No moves to undo");
+    }
+
     const Move& last_move{m_move_history.back()};
 
     char ball{m_tubes[last_move.get_destination()].take_top_ball()};
