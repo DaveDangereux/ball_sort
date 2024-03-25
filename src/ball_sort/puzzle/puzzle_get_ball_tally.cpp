@@ -1,5 +1,7 @@
 #include "ball_sort/puzzle.hpp"
 
+namespace ballsort {
+
 std::unordered_map<char, size_t> Puzzle::get_ball_tally() const
 {
     const size_t letters_in_alphabet{26};
@@ -14,3 +16,5 @@ std::unordered_map<char, size_t> Puzzle::get_ball_tally() const
 
     return ball_tally;
 }
+
+} // namespace ballsort

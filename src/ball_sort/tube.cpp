@@ -3,6 +3,8 @@
 #include <ball_sort/exceptions/illegal_puzzle_exception.hpp>
 #include <fmt/core.h>
 
+namespace ballsort {
+
 Tube::Tube(std::string_view balls) : m_balls{balls}
 {
     if (m_balls.size() > MAX_CAPACITY) {
@@ -23,9 +25,7 @@ bool Tube::is_full() const
 
 bool Tube::is_one_colour() const
 {
-    if (m_balls.empty()) {
-        return false;
-    }
+    if (m_balls.empty()) { return false; }
 
     const char& first_ball{m_balls.front()};
     return std::all_of(m_balls.begin() + 1, m_balls.end(),
@@ -54,9 +54,7 @@ char Tube::get_top_ball() const
 
 std::string Tube::get_serialised_balls() const
 {
-    if (is_full()) {
-        return m_balls;
-    }
+    if (is_full()) { return m_balls; }
 
     size_t gap_size{MAX_CAPACITY - m_balls.size()};
     return m_balls + std::string(gap_size, ' ');
@@ -82,3 +80,5 @@ void Tube::place_ball(const char ball)
 
     m_balls.push_back(ball);
 }
+
+} // namespace ballsort

@@ -2,6 +2,8 @@
 
 #include <chrono>
 
+namespace ballsort {
+
 class Timer {
     using TimePoint = std::chrono::time_point<std::chrono::steady_clock>;
 
@@ -16,3 +18,5 @@ class Timer {
     TimePoint m_start_time{};
     std::chrono::duration<float> m_duration{};
 };
+
+} // namespace ballsort

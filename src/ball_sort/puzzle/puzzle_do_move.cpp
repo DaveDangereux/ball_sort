@@ -2,6 +2,8 @@
 #include "ball_sort/puzzle.hpp"
 #include <fmt/core.h>
 
+namespace ballsort {
+
 void Puzzle::do_move(const size_t origin, const size_t destination)
 {
     if (origin >= m_tubes.size() || destination >= m_tubes.size()) {
@@ -32,3 +34,5 @@ void Puzzle::do_move(const size_t origin, const size_t destination)
         m_is_novel_puzzle_state = true;
     }
 }
+
+} // namespace ballsort

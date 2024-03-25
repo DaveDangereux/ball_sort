@@ -2,6 +2,8 @@
 
 #include <string>
 
+namespace ballsort {
+
 struct Move {
     friend std::hash<Move>;
 
@@ -22,9 +24,11 @@ struct Move {
     std::string m_serialised_state;
 };
 
+} // namespace ballsort
+
 template <>
-struct std::hash<Move> {
-    size_t operator()(const Move& move) const
+struct std::hash<ballsort::Move> {
+    size_t operator()(const ballsort::Move& move) const
     {
         size_t origin_offset{2};
         size_t state_offset{4};
