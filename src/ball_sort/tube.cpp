@@ -37,11 +37,6 @@ bool Tube::is_solved() const
     return is_full() && is_one_colour();
 }
 
-std::string Tube::get_balls() const
-{
-    return m_balls;
-}
-
 char Tube::get_top_ball() const
 {
     if (m_balls.empty()) {
@@ -50,14 +45,6 @@ char Tube::get_top_ball() const
     }
 
     return m_balls.back();
-}
-
-std::string Tube::get_serialised_balls() const
-{
-    if (is_full()) { return m_balls; }
-
-    size_t gap_size{MAX_CAPACITY - m_balls.size()};
-    return m_balls + std::string(gap_size, ' ');
 }
 
 char Tube::take_top_ball()
@@ -69,6 +56,19 @@ char Tube::take_top_ball()
     char ball{m_balls.back()};
     m_balls.pop_back();
     return ball;
+}
+
+std::string Tube::get_balls() const
+{
+    return m_balls;
+}
+
+std::string Tube::get_serialised_balls() const
+{
+    if (is_full()) { return m_balls; }
+
+    size_t gap_size{MAX_CAPACITY - m_balls.size()};
+    return m_balls + std::string(gap_size, ' ');
 }
 
 void Tube::place_ball(const char ball)
