@@ -12,10 +12,22 @@ target_link_libraries(${TEST_EXECUTABLE_NAME} GTest::gtest_main
 target_include_directories(${TEST_EXECUTABLE_NAME}
                            PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
-if(${ENABLE_WARNINGS})
+if(ENABLE_WARNINGS)
     target_set_warnings(
         TARGET ${TEST_EXECUTABLE_NAME} ENABLE ${ENABLE_WARNINGS} AS_ERRORS
         ${ENABLE_WARNINGS_AS_ERRORS})
+endif()
+
+# The address sanitiser has been disabled for tests due to a peculiar bug that
+# can cause an empty test or tests with certain names to trigger the address
+# sanitiser
+
+if(ENABLE_SANITISE_THREAD)
+    target_add_thread_sanitiser(${TEST_EXECUTABLE_NAME})
+endif()
+
+if(ENABLE_SANITISE_UNDEFINED)
+    target_add_undefined_behaviour_sanitiser(${TEST_EXECUTABLE_NAME})
 endif()
 
 gtest_discover_tests(${TEST_EXECUTABLE_NAME})
