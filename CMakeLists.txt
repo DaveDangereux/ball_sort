@@ -32,9 +32,10 @@ if(ENABLE_WARNINGS)
     include(Warnings)
 endif()
 
-if(ENABLE_SANITISE_ADDRESS OR ENABLE_SANITISE_UNDEFINED)
+if(ENABLE_SANITISE_ADDRESS
+   OR ENABLE_SANITISE_THREAD
+   OR ENABLE_SANITISE_UNDEFINED)
     include(Sanitisers)
-    add_sanitiser_flags()
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
