@@ -23,64 +23,38 @@ to create an unsolved puzzle configuration with no legal moves.
 *A short demo of the program running.*
 
 ## Usage
-The project is a C++ terminal application and builds to an executable that
-demonstrates the solution of one puzzle.
+The project builds to a console application. If run without arguments, it will
+demonstrate the solution of a pre-defined puzzle.
 
-A `Puzzle` is instantiated by passing a vector of strings, with each character
-representing a ball colour:
+### Multi-string arguments
+You may pass a space-separated series of strings of no more than four
+characters each, where each string represents a tube in the puzzle and each
+unique character represents a ball colour. A puzzle must have two more tubes
+than there are colours of ball, so an empty tube may be passed as an empty
+quoted string.
 
-```cpp
-Puzzle puzzle{{"DFHE", "ABAD", "EIIE", "BHII", "DHCC", "CBGF", "GGAC", "EBFF", "HDAG", "", ""}};
+```bash
+ball_sort DFHE ABAD EIIE BHII DHCC CBGF GGAC EBFF HDAG "" ""
 ```
 
-The number of strings in the vector must match the number of different
-characters plus an additional two strings. The choice of initial configuration
-is flexible, so this method allows the entry of a puzzle in a half-solved state.
+The choice of initial configuration is flexible, so this method allows the
+entry of a puzzle in a half-solved state.
 
-The following is therefore also legal:
-```cpp
-Puzzle puzzle{{"DF", "ABAD", "EIIE", "BHII", "DHCC", "CBGF", "GGAC", "EBFF", "HDAG", "E", "H"}};
+```bash
+ball_sort DF ABAD EIIE BHII DHCC CBGF GGAC EBFF HDAG E H
 ```
 
-Alternatively, a `Puzzle` may be instantiated by passing a single string of
-space-separated integers.
+### Single-string argument
+Alternatively, you may pass a single quoted string of space-separated integers,
+where each unique digit represents a ball colour. The integers will be
+converted into characters (`1` = `A`) and the tubes of the puzzle will be
+filled sequentially, bottom-to-top and left-to-right. Because this method is
+intended to produce a puzzle in its initial state, it will automatically add
+the necessary empty tubes to make the puzzle legal.
 
-```cpp
-Puzzle puzzle{"4 6 8 5 1 2 1 4 5 9 9 5 2 8 9 9 4 8 3 3 3 2 7 6 7 7 1 3 5 2 6 6 8 4 1 7"};
+```bash
+ball_sort "4 6 8 5 1 2 1 4 5 9 9 5 2 8 9 9 4 8 3 3 3 2 7 6 7 7 1 3 5 2 6 6 8 4 1 7"
 ```
-
-In this variant, the tubes of the puzzle will be filled sequentially,
-bottom-to-top and left-to-right, with characters corresponding to each number.
-Because this method is intended to produce a puzzle in its initial state, it
-will automatically add the necessary extra empty tubes to make the puzzle
-legal.
-
-To solve the puzzle, the puzzle object is passed to the `solve` function.
-
-```cpp
-ballsort::solver::solve(puzzle);
-```
-
-This method can take an additional boolean parameter that determines whether to
-display the solving process in the terminal, which defaults to `false`.
-
-The solution history is stored in the puzzle object and can be played back by
-passing the solved puzzle to the `play_solution` method.
-
-```cpp
-Solver::play_solution(puzzle);
-```
-
-## Building
-Two build scripts are provided for debug and release builds. The binaries will
-be output to a top-level `bin` directory.
-
-Dependencies are currently managed with Conan, but support for alternative
-dependency managers will be added at a later date.
-
-## Run tests
-If you would like to run tests, a `test.sh` script is also included. This will
-build a Google Test executable.
 
 ## Known issues
 Although all illegal and many wasteful moves have been eliminated, the
