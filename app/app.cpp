@@ -20,6 +20,8 @@ int main()
     char answer{};
 
     std::cin >> answer;
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     const size_t moves_per_second{9};
 
