@@ -2,11 +2,11 @@
 
 #include "ball_sort/puzzle.hpp"
 
-namespace ballsort::solver {
+namespace ballsort {
 
 using ClearCallback = std::function<void()>;
 
-void solve(Puzzle& puzzle, bool display = false);
+void solve(Puzzle& puzzle, bool display = false); // NOLINT
 
 [[nodiscard]] std::vector<Move>
 generate_filtered_moves(const Puzzle& puzzle,
@@ -23,4 +23,4 @@ void print_puzzle(const Puzzle& puzzle);
 void play_solution(Puzzle& puzzle, size_t moves_per_second);
 void clear_screen();
 
-} // namespace ballsort::solver
+} // namespace ballsort

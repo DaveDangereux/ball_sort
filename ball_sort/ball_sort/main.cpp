@@ -5,9 +5,9 @@
 
 int main(int argc, char* argv[])
 {
+    using ballsort::play_solution;
     using ballsort::Puzzle;
-    using ballsort::solver::play_solution;
-    using ballsort::solver::solve;
+    using ballsort::solve;
 
     std::vector<std::string> arguments{argv + 1, argv + argc};
 
@@ -25,18 +25,20 @@ int main(int argc, char* argv[])
 
     solve(*puzzle);
 
-    fmt::print("Play solution?\n> ");
+    if (!puzzle->is_unsolvable()) {
+        fmt::print("Play solution?\n> ");
 
-    char answer{};
+        char answer{};
 
-    std::cin >> answer;
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin >> answer;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    const size_t moves_per_second{9};
+        const size_t moves_per_second{9};
 
-    if (std::toupper(answer) == 'Y') {
-        play_solution(*puzzle, moves_per_second);
+        if (std::toupper(answer) == 'Y') {
+            play_solution(*puzzle, moves_per_second);
+        }
     }
 
     return 0;

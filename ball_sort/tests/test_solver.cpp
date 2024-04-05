@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 
 using ballsort::Puzzle;
-using ballsort::solver::solve;
+using ballsort::solve;
 
 TEST(SolverTest, AllSolvedTubesMeansNoMoves)
 {

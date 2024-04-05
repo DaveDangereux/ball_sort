@@ -9,7 +9,7 @@
 
 namespace ballsort {
 
-void solver::solve(Puzzle& puzzle, bool display)
+void solve(Puzzle& puzzle, bool display)
 {
     puzzle.reset();
 
@@ -37,6 +37,7 @@ void solver::solve(Puzzle& puzzle, bool display)
 
         bool is_unsolvable{filtered_moves.empty() && history_length == 0};
         if (is_unsolvable) {
+            puzzle.m_is_unsolvable = true;
             fmt::print("Unsolvable\n");
             return;
         }
@@ -64,8 +65,8 @@ void solver::solve(Puzzle& puzzle, bool display)
 }
 
 std::vector<Move>
-solver::generate_filtered_moves(const Puzzle& puzzle,
-                                const std::unordered_set<Move>& excluded_moves)
+generate_filtered_moves(const Puzzle& puzzle,
+                        const std::unordered_set<Move>& excluded_moves)
 {
     const std::vector<Tube>& tubes{puzzle.get_tubes()};
 
@@ -85,14 +86,14 @@ solver::generate_filtered_moves(const Puzzle& puzzle,
     return filtered_moves;
 }
 
-Move solver::pick_move(const std::vector<Move>& filtered_moves)
+Move pick_move(const std::vector<Move>& filtered_moves)
 {
     return filtered_moves.front();
 }
 
-void solver::print_puzzle(const Puzzle& puzzle,
-                          std::ostream& output_stream,
-                          const ClearCallback& clear_callback)
+void print_puzzle(const Puzzle& puzzle,
+                  std::ostream& output_stream,
+                  const ClearCallback& clear_callback)
 {
     clear_callback();
 
@@ -117,12 +118,12 @@ void solver::print_puzzle(const Puzzle& puzzle,
     fmt::print(output_stream, "\n");
 }
 
-void solver::print_puzzle(const Puzzle& puzzle)
+void print_puzzle(const Puzzle& puzzle)
 {
     print_puzzle(puzzle, std::cout, clear_screen);
 }
 
-void solver::play_solution(Puzzle& puzzle, size_t moves_per_second)
+void play_solution(Puzzle& puzzle, size_t moves_per_second)
 {
     if (puzzle.get_history().empty()) { solve(puzzle, false); }
 
@@ -140,7 +141,7 @@ void solver::play_solution(Puzzle& puzzle, size_t moves_per_second)
     print_puzzle(puzzle);
 }
 
-void solver::clear_screen()
+void clear_screen()
 {
     fmt::print("\033[2J\033[H");
 }
