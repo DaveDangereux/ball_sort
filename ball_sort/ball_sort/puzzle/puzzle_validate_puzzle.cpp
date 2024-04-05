@@ -1,5 +1,5 @@
 #include "ball_sort/puzzle.hpp"
-#include "ball_sort/exceptions/illegal_puzzle_exception.hpp"
+#include "ball_sort/illegal_puzzle_exception.hpp"
 
 namespace ballsort {
 

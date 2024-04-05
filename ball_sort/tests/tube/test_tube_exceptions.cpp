@@ -1,5 +1,5 @@
-#include "ball_sort/exceptions/illegal_move_exception.hpp"
-#include "ball_sort/exceptions/illegal_puzzle_exception.hpp"
+#include "ball_sort/illegal_move_exception.hpp"
+#include "ball_sort/illegal_puzzle_exception.hpp"
 #include "ball_sort/tube.hpp"
 #include <gtest/gtest.h>
 
