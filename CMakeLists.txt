@@ -1,3 +1,6 @@
+# -----------------------------------------------------------------------------
+# Basic project settings
+# -----------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.28)
 
 project(
@@ -5,56 +8,58 @@ project(
     VERSION 1.0.0
     LANGUAGES CXX)
 
-# Global CMake variables
-set(CMAKE_CXX_STANDARD 20)
+if(NOT DEFINED CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 20)
+endif()
+
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
+# -----------------------------------------------------------------------------
 # Options
-option(ENABLE_WARNINGS "Enable to add warnings to a target" ON)
-option(ENABLE_WARNINGS_AS_ERRORS "Enable to treat warnings as errors" ON)
-option(ENABLE_TESTING "Enable a Unit Testing build" OFF)
-option(ENABLE_SANITISE_ADDRESS "Enable address sanitiser" OFF)
-option(ENABLE_SANITISE_THREAD "Enable thread sanitiser" OFF)
-option(ENABLE_SANITISE_UNDEFINED "Enable undefined behaviour sanitiser" OFF)
+# -----------------------------------------------------------------------------
+option(ENABLE_WARNINGS "Add warnings to targets" ON)
+option(WARNINGS_AS_ERRORS "Treat warnings as errors" ON)
+option(ENABLE_TESTS "Build test executables" ON)
+option(ENABLE_SANITISE_ADDRESS "Enable address sanitiser for targets" ON)
+option(ENABLE_SANITISE_UNDEFINED "Enable undefined behaviour sanitiser for targets" ON)
+option(ENABLE_SANITISE_THREAD "Enable thread sanitiser for targets" OFF)
 
-# Project / Library Names
-set(EXECUTABLE_NAME ${PROJECT_NAME})
-set(TEST_EXECUTABLE_NAME "${PROJECT_NAME}_tests")
+# -----------------------------------------------------------------------------
+# Global variables
+# -----------------------------------------------------------------------------
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
+set(CMAKE_STATIC_LIBRARY_PREFIX "")
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
-# CMake Modules
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-include(Print)
+set(CPM_SOURCE_CACHE ${CMAKE_SOURCE_DIR}/.cache/CPM)
+set(TEST_DEPS GTest::gtest_main GTest::gmock_main)
 
-if(ENABLE_WARNINGS)
-    include(Warnings)
+# -----------------------------------------------------------------------------
+# CMake modules
+# -----------------------------------------------------------------------------
+include(add_subdirectories)
+include(find_sources)
+include(make_names)
+include(print)
+include(sanitisers)
+include(target_set_flags)
+include(target_set_warnings)
+include(CPM)
+
+# -----------------------------------------------------------------------------
+# External dependencies
+# -----------------------------------------------------------------------------
+cpmaddpackage("gh:fmtlib/fmt#10.2.1")
+
+if(ENABLE_TESTS)
+    cpmaddpackage("gh:google/googletest@1.14.0")
 endif()
 
-if(ENABLE_SANITISE_ADDRESS
-   OR ENABLE_SANITISE_THREAD
-   OR ENABLE_SANITISE_UNDEFINED)
-    include(Sanitisers)
-endif()
-
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-    if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        add_compile_options(-Zi)
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        add_compile_options(-g)
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU
-  ")
-        add_compile_options(-g)
-    endif()
-endif()
-
-# External Libraries
-find_package(fmt REQUIRED)
-
-# Subdirectories
-add_subdirectory(app)
-if(ENABLE_TESTING)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+# -----------------------------------------------------------------------------
+# Find and add all subdirectories containing a CMakeLists.txt file
+# -----------------------------------------------------------------------------
+add_subdirectories()
