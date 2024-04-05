@@ -16,7 +16,6 @@ endif()
 # Test executable settings
 # -----------------------------------------------------------------------------
 if(ENABLE_TESTS AND TEST_SOURCES)
-    print(${TEST_SOURCES})
     add_executable(${TEST_NAME})
     target_sources(${TEST_NAME} PRIVATE ${TEST_SOURCES})
     target_include_directories(${TEST_NAME} PRIVATE "${INCLUDE_DIRS}")
