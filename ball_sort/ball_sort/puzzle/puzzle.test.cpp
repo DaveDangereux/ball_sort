@@ -1,6 +1,6 @@
+#include "ball_sort/puzzle.hpp"
 #include "ball_sort/illegal_move_exception.hpp"
 #include "ball_sort/illegal_puzzle_exception.hpp"
-#include "ball_sort/puzzle.hpp"
 #include <gtest/gtest.h>
 
 using ballsort::IllegalMoveException;
