@@ -35,6 +35,11 @@ bool Puzzle::is_solved() const
     });
 }
 
+bool Puzzle::is_unsolvable() const
+{
+    return m_is_unsolvable;
+}
+
 const std::vector<Tube>& Puzzle::get_tubes() const
 {
     return m_tubes;
