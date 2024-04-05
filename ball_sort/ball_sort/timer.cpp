@@ -16,7 +16,7 @@ void Timer::stop()
     m_duration = stop_time - m_start_time;
 }
 
-std::string Timer::get_time()
+std::string Timer::get_time() const
 {
     const size_t milliseconds_per_second{1000};
 

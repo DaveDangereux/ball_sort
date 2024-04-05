@@ -11,7 +11,7 @@ class Timer {
     explicit Timer(const int precision = 3) : m_precision{precision} {};
     void start();
     void stop();
-    std::string get_time();
+    [[nodiscard]] std::string get_time() const;
 
  private:
     int m_precision;
