@@ -10,6 +10,8 @@ namespace ballsort {
 
 class Puzzle {
  public:
+    friend void solve(Puzzle& puzzle, bool display);
+
     using Strings = std::vector<std::string>;
     using Moves = std::vector<Move>;
     using Tubes = std::vector<Tube>;
@@ -24,6 +26,7 @@ class Puzzle {
     [[nodiscard]] Moves generate_legal_moves() const;
     [[nodiscard]] bool is_novel_puzzle_state() const;
     [[nodiscard]] bool is_solved() const;
+    [[nodiscard]] bool is_unsolvable() const;
     [[nodiscard]] const Tubes& get_tubes() const;
     [[nodiscard]] const Moves& get_history() const;
 
@@ -46,6 +49,7 @@ class Puzzle {
     std::vector<Move> m_move_history;
     std::unordered_set<std::string> m_visited_puzzle_states;
     bool m_is_novel_puzzle_state{true};
+    bool m_is_unsolvable{false};
 };
 
 } // namespace ballsort
