@@ -7,7 +7,7 @@ command -v ccache >/dev/null 2>&1 || {
 	exit 1
 }
 
-rm -rf build
-cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DENABLE_TESTING=ON
+rm -rf build bin
+cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
 cmake --build build
 ./bin/ball_sort_tests
