@@ -1,13 +1,10 @@
-#include "ball_sort/illegal_move_exception.hpp"
 #include "ball_sort/puzzle.hpp"
 
 namespace ballsort {
 
 void Puzzle::undo_move()
 {
-    if (m_move_history.empty()) {
-        throw IllegalMoveException("No moves to undo");
-    }
+    if (m_move_history.empty()) { throw IllegalMoveException("No moves to undo"); }
 
     const Move& last_move{m_move_history.back()};
 

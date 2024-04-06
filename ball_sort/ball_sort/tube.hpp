@@ -29,4 +29,11 @@ class Tube {
     std::string m_balls;
 };
 
+class TubeException : public std::runtime_error {
+ public:
+    explicit TubeException(const std::string& message)
+        : std::runtime_error(message)
+    {}
+};
+
 }; // namespace ballsort

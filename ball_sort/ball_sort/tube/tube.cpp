@@ -1,6 +1,4 @@
 #include "ball_sort/tube.hpp"
-#include <ball_sort/illegal_move_exception.hpp>
-#include <ball_sort/illegal_puzzle_exception.hpp>
 #include <fmt/core.h>
 
 namespace ballsort {
@@ -8,7 +6,7 @@ namespace ballsort {
 Tube::Tube(std::string_view balls) : m_balls{balls}
 {
     if (m_balls.size() > max_capacity) {
-        throw IllegalPuzzleException(
+        throw TubeException(
             fmt::format("Too many balls for tube: {}", m_balls));
     }
 }
@@ -40,8 +38,7 @@ bool Tube::is_solved() const
 char Tube::get_top_ball() const
 {
     if (m_balls.empty()) {
-        throw IllegalMoveException(
-            "Tried to get top ball colour from empty tube");
+        throw TubeException("Tried to get top ball colour from empty tube");
     }
 
     return m_balls.back();
@@ -50,7 +47,7 @@ char Tube::get_top_ball() const
 char Tube::take_top_ball()
 {
     if (m_balls.empty()) {
-        throw IllegalMoveException("Tried to take ball from empty tube");
+        throw TubeException("Tried to take ball from empty tube");
     }
 
     char ball{m_balls.back()};
@@ -74,7 +71,7 @@ std::string Tube::get_tube_as_string() const
 void Tube::place_ball(const char ball)
 {
     if (is_full()) {
-        throw IllegalMoveException(fmt::format(
+        throw TubeException(fmt::format(
             "Tried to place ball {} in full tube {}", ball, m_balls));
     }
 

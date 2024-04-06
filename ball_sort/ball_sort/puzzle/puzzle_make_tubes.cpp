@@ -1,4 +1,3 @@
-#include "ball_sort/illegal_puzzle_exception.hpp"
 #include "ball_sort/puzzle.hpp"
 #include <fmt/core.h>
 #include <sstream>
@@ -26,7 +25,7 @@ std::vector<Tube> Puzzle::make_tubes(const std::string& number_string)
                              std::istream_iterator<int>{}};
 
     if (numbers.size() % Tube::get_max_capacity() != 0) {
-        throw IllegalPuzzleException(
+        throw PuzzleException(
             fmt::format("Tried to make puzzle with {} balls, but need an "
                         "integer multiple of tube capacity {}",
                         numbers.size(), Tube::get_max_capacity()));
@@ -45,7 +44,7 @@ std::vector<Tube> Puzzle::make_tubes(const std::string& number_string)
 
     for (int number : numbers) {
         if (number < min_number || number > max_number) {
-            throw IllegalPuzzleException(
+            throw PuzzleException(
                 fmt::format("Number out of range: {}", number));
         }
 

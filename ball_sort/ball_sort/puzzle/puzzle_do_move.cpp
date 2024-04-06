@@ -1,4 +1,3 @@
-#include "ball_sort/illegal_move_exception.hpp"
 #include "ball_sort/puzzle.hpp"
 #include <fmt/core.h>
 
