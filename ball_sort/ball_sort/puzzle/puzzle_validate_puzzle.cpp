@@ -1,5 +1,4 @@
 #include "ball_sort/puzzle.hpp"
-#include "ball_sort/illegal_puzzle_exception.hpp"
 
 namespace ballsort {
 
@@ -10,7 +9,7 @@ void Puzzle::validate_puzzle() const
     for (const auto& tally : ball_tally) {
         bool is_wrong_ball_quantity{tally.second != Tube::get_max_capacity()};
         if (is_wrong_ball_quantity) {
-            throw IllegalPuzzleException(
+            throw PuzzleException(
                 "Puzzle must have four balls for each colour");
         }
     }
@@ -18,7 +17,7 @@ void Puzzle::validate_puzzle() const
     const size_t minimum_number_of_tubes{ball_tally.size() +
                                          Puzzle::number_of_empty_tubes};
     if (m_tubes.size() < minimum_number_of_tubes) {
-        throw IllegalPuzzleException("Not enough tubes");
+        throw PuzzleException("Not enough tubes");
     }
 }
 

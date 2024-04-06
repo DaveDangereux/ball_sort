@@ -52,4 +52,18 @@ class Puzzle {
     bool m_is_unsolvable{false};
 };
 
+class PuzzleException : public std::runtime_error {
+ public:
+    explicit PuzzleException(const std::string& message)
+        : std::runtime_error(message)
+    {}
+};
+
+class IllegalMoveException : public std::runtime_error {
+ public:
+    explicit IllegalMoveException(const std::string& message)
+        : std::runtime_error(message)
+    {}
+};
+
 } // namespace ballsort
