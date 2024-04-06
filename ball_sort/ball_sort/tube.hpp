@@ -17,7 +17,7 @@ class Tube {
     [[nodiscard]] char get_top_ball() const;
     [[nodiscard]] char take_top_ball();
     [[nodiscard]] std::string get_balls() const;
-    [[nodiscard]] std::string get_serialised_balls() const;
+    [[nodiscard]] std::string get_tube_as_string() const;
 
     void place_ball(char ball);
 

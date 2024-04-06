@@ -50,16 +50,16 @@ const std::vector<Move>& Puzzle::get_history() const
     return m_move_history;
 }
 
-std::string Puzzle::get_serialised_state() const
+std::string Puzzle::get_puzzle_as_string() const
 {
-    std::string serialised_state{};
-    serialised_state.reserve(m_tubes.size() * Tube::get_max_capacity());
+    std::string puzzle_as_string{};
+    puzzle_as_string.reserve(m_tubes.size() * Tube::get_max_capacity());
 
     for (const Tube& tube : m_tubes) {
-        serialised_state.append(tube.get_serialised_balls());
+        puzzle_as_string.append(tube.get_tube_as_string());
     }
 
-    return serialised_state;
+    return puzzle_as_string;
 }
 
 } // namespace ballsort

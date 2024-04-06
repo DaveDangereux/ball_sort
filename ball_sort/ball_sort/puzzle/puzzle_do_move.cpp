@@ -13,7 +13,7 @@ void Puzzle::do_move(const size_t origin, const size_t destination)
             destination, maximum_tube_index));
     }
 
-    const std::string state_prior_to_move{get_serialised_state()};
+    const std::string state_prior_to_move{get_puzzle_as_string()};
     m_move_history.emplace_back(std::pair{origin, destination},
                                 state_prior_to_move);
 
@@ -25,7 +25,7 @@ void Puzzle::do_move(const size_t origin, const size_t destination)
     char ball{m_tubes[origin].take_top_ball()};
     m_tubes[destination].place_ball(ball);
 
-    const std::string current_state{get_serialised_state()};
+    const std::string current_state{get_puzzle_as_string()};
 
     if (m_visited_puzzle_states.contains(current_state)) {
         m_is_novel_puzzle_state = false;

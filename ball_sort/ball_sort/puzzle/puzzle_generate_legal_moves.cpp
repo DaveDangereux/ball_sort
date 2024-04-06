@@ -4,7 +4,7 @@ namespace ballsort {
 
 std::vector<Move> Puzzle::generate_legal_moves() const
 {
-    const std::string current_state{get_serialised_state()};
+    const std::string current_state{get_puzzle_as_string()};
 
     const size_t maximum_number_of_possible_moves{get_tubes().size() *
                                                   (get_tubes().size() - 1)};
