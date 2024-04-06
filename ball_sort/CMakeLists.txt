@@ -12,7 +12,6 @@ target_sources(${NAME} PRIVATE ${SOURCES})
 target_include_directories(${NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(${NAME} PRIVATE fmt::fmt)
 target_set_warnings(${NAME})
-target_add_address_sanitiser(${NAME})
-target_add_undefined_behaviour_sanitiser(${NAME})
+target_add_sanitisers(${NAME})
 
 include(add_test_targets)

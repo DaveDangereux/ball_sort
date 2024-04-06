@@ -23,9 +23,11 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 option(ENABLE_WARNINGS "Add warnings to targets" ON)
 option(WARNINGS_AS_ERRORS "Treat warnings as errors" ON)
 option(ENABLE_TESTS "Build test executables" ON)
-option(ENABLE_SANITISE_ADDRESS "Enable address sanitiser for targets" ON)
-option(ENABLE_SANITISE_UNDEFINED "Enable undefined behaviour sanitiser for targets" ON)
-option(ENABLE_SANITISE_THREAD "Enable thread sanitiser for targets" OFF)
+option(ENABLE_SANITISER_ADDRESS "Enable address sanitiser" ON)
+option(ENABLE_SANITISER_LEAK "Enable leak sanitiser" OFF)
+option(ENABLE_SANITISER_MEMORY "Enable memory sanitiser" OFF)
+option(ENABLE_SANITISER_THREAD "Enable thread sanitiser" OFF)
+option(ENABLE_SANITISER_UNDEFINED_BEHAVIOUR "Enable undefined behaviour sanitiser" ON)
 
 # -----------------------------------------------------------------------------
 # Global variables
@@ -41,14 +43,14 @@ set(TEST_DEPS GTest::gtest_main GTest::gmock_main)
 # -----------------------------------------------------------------------------
 # CMake modules
 # -----------------------------------------------------------------------------
+include(CPM)
 include(add_subdirectories)
 include(find_sources)
 include(make_names)
 include(print)
-include(sanitisers)
+include(target_add_sanitisers)
 include(target_set_flags)
 include(target_set_warnings)
-include(CPM)
 
 # -----------------------------------------------------------------------------
 # External dependencies
