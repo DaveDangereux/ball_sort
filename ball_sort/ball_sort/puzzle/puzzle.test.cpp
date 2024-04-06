@@ -15,7 +15,7 @@ TEST(PuzzleTest, NumberStringConstructionWithWrongQuantityOfNumbersThrows)
 
 TEST(PuzzleTest, LessThanMinimumTubesThrowsException)
 {
-    std::vector<std::string> tube_strings;
+    std::vector<std::string> tube_strings{};
     EXPECT_THROW(Puzzle{tube_strings}, IllegalPuzzleException);
 }
 
