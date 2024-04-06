@@ -8,9 +8,9 @@ struct Move {
     friend std::hash<Move>;
 
     explicit Move(const std::pair<size_t, size_t> move,
-                  std::string serialised_state = "")
+                  std::string puzzle_state_as_string = "")
         : m_origin{move.first}, m_destination{move.second},
-          m_serialised_state{std::move(serialised_state)}
+          m_puzzle_state_as_string{std::move(puzzle_state_as_string)}
     {}
 
     bool operator==(const Move& other) const = default;
@@ -21,7 +21,7 @@ struct Move {
  private:
     size_t m_origin;
     size_t m_destination;
-    std::string m_serialised_state;
+    std::string m_puzzle_state_as_string;
 };
 
 } // namespace ballsort
@@ -35,7 +35,7 @@ struct std::hash<ballsort::Move> {
 
         return (std::hash<size_t>()(move.m_origin) << origin_offset) ^
                std::hash<size_t>()(move.m_destination) ^
-               (std::hash<std::string>()(move.m_serialised_state)
+               (std::hash<std::string>()(move.m_puzzle_state_as_string)
                 << state_offset);
     }
 };

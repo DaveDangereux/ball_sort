@@ -37,7 +37,7 @@ class Puzzle {
     [[nodiscard]] static Tubes make_tubes(const std::string& number_string);
 
     [[nodiscard]] std::unordered_map<char, size_t> get_ball_tally() const;
-    [[nodiscard]] std::string get_serialised_state() const;
+    [[nodiscard]] std::string get_puzzle_as_string() const;
 
     [[nodiscard]] bool is_legal_move(size_t origin_index,
                                      size_t destination_index) const;

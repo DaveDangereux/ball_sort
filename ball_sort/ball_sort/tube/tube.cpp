@@ -63,7 +63,7 @@ std::string Tube::get_balls() const
     return m_balls;
 }
 
-std::string Tube::get_serialised_balls() const
+std::string Tube::get_tube_as_string() const
 {
     if (is_full()) { return m_balls; }
 
