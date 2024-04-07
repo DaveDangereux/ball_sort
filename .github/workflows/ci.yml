@@ -12,8 +12,7 @@ jobs:
         uses: hendrikmuhs/ccache-action@v1.2
 
       - name: Test
-        run: ./scripts/debug_test.sh
-        shell: bash
+        run: .\scripts\windows\debug_test.ps1
 
   TestMac:
     runs-on: macos-13
@@ -24,7 +23,7 @@ jobs:
         uses: hendrikmuhs/ccache-action@v1.2
 
       - name: Test
-        run: ./scripts/debug_test.sh
+        run: ./scripts/macos_linux/debug_test.sh
 
   TestUbuntu:
     runs-on: ubuntu-latest
@@ -35,4 +34,4 @@ jobs:
         uses: hendrikmuhs/ccache-action@v1.2
 
       - name: Test
-        run: ./scripts/debug_test.sh
+        run: ./scripts/macos_linux/debug_test.sh
