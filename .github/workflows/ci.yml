@@ -11,6 +11,10 @@ jobs:
       - name: Install ccache
         uses: hendrikmuhs/ccache-action@v1.2
 
+      - name: Update Apple Clang
+        run: xcode-select --install
+        shell: bash
+
       - name: Test
         run: ./scripts/debug_test.sh
         shell: bash
