@@ -8,12 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Remove old xcode installation
-        run: sudo rm -rf /Library/Developer/CommandLineTools
+      - name: List Xcode installations
+        run: sudo ls -1 /Applications | grep "Xcode"
         shell: bash
 
-      - name: Update Apple Clang
-        run: xcode-select --install
+      - name: Select Xcode 15.1
+        run: sudo xcode-select -s /Applications/Xcode_15.1.app/Contents/Developer
         shell: bash
 
       - name: Install ccache
