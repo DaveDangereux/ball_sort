@@ -13,6 +13,7 @@ jobs:
 
       - name: Test
         run: ./scripts/debug_test.sh
+        shell: bash
 
   TestMac:
     runs-on: macos-13
