@@ -1,4 +1,5 @@
 #include "ball_sort/puzzle.hpp"
+#include <algorithm>
 #include <fmt/core.h>
 #include <sstream>
 

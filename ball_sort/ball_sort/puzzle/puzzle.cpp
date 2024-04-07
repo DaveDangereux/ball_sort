@@ -1,5 +1,6 @@
 #include "ball_sort/puzzle.hpp"
 #include "ball_sort/tube.hpp"
+#include <algorithm>
 #include <fmt/core.h>
 
 namespace ballsort {

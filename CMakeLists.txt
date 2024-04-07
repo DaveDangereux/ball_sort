@@ -3,10 +3,7 @@
 # -----------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.28)
 
-project(
-    ball_sort
-    VERSION 1.0.0
-    LANGUAGES CXX)
+project(ball_sort VERSION 1.0.0 LANGUAGES CXX)
 
 if(NOT DEFINED CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 20)
@@ -24,9 +21,9 @@ option(ENABLE_WARNINGS "Add warnings to targets" ON)
 option(WARNINGS_AS_ERRORS "Treat warnings as errors" ON)
 option(ENABLE_TESTS "Build test executables" ON)
 option(ENABLE_SANITISER_ADDRESS "Enable address sanitiser" ON)
-option(ENABLE_SANITISER_LEAK "Enable leak sanitiser" OFF)
-option(ENABLE_SANITISER_MEMORY "Enable memory sanitiser" OFF)
-option(ENABLE_SANITISER_THREAD "Enable thread sanitiser" OFF)
+option(ENABLE_SANITISER_LEAK "Enable leak sanitiser" ON)
+option(ENABLE_SANITISER_MEMORY "Enable memory sanitiser" ON)
+option(ENABLE_SANITISER_THREAD "Enable thread sanitiser" ON)
 option(ENABLE_SANITISER_UNDEFINED_BEHAVIOUR "Enable undefined behaviour sanitiser" ON)
 
 # -----------------------------------------------------------------------------
