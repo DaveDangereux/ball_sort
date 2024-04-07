@@ -9,8 +9,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Test
-        run: .\scripts\windows\debug_test.bat
-        shell: cmd
+        run: .\scripts\windows\debug_test.ps1
 
   TestMac:
     runs-on: macos-13
