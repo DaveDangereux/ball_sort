@@ -3,12 +3,7 @@
 # -----------------------------------------------------------------------------
 function(add_subdirectories)
     set(multi_value_keywords EXCLUDE)
-    cmake_parse_arguments(
-        ADD_SUBDIRECTORIES
-        ""
-        ""
-        "${multi_value_keywords}"
-        ${ARGN})
+    cmake_parse_arguments(ADD_SUBDIRECTORIES "" "" "${multi_value_keywords}" ${ARGN})
 
     file(GLOB CHILDREN ${CMAKE_SOURCE_DIR}/*)
     foreach(CHILD ${CHILDREN})

@@ -3,6 +3,7 @@
 #include "ball_sort/move.hpp"
 #include "ball_sort/tube.hpp"
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
