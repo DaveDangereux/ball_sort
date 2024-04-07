@@ -3,7 +3,19 @@ name: ci
 on: [push, pull_request]
 
 jobs:
-  Test:
+  TestMac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+
+      - name: Test
+        run: ./scripts/debug_test.sh
+        shell: bash
+
+  TestUbuntu:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
