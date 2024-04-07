@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ball_sort/puzzle.hpp"
+#include <functional>
 
 namespace ballsort {
 

@@ -4,12 +4,7 @@
 function(target_set_warnings TARGET)
     # Parse keyword arguments
     set(one_value_keywords ENABLE AS_ERRORS)
-    cmake_parse_arguments(
-        TARGET_SET_WARNINGS
-        ""
-        "${one_value_keywords}"
-        ""
-        ${ARGN})
+    cmake_parse_arguments(TARGET_SET_WARNINGS "" "${one_value_keywords}" "" ${ARGN})
 
     message("Positional arg: ${TARGET}")
     # Check for required arguments
@@ -82,7 +77,6 @@ function(target_set_warnings TARGET)
         -Wnon-virtual-dtor # if a class with virtual func has a non-virtual dest
         -Wold-style-cast # warn for c-style casts
         -Woverloaded-virtual # if you overload (not override) a virtual function
-        -Weffc++ # violations from Scott Meyers’ Effective C++
     )
 
     set(GCC_WARNINGS

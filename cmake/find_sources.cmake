@@ -22,11 +22,6 @@ macro(find_sources)
     # Add main sources to unit test sources, minus main.cpp
     if(TEST_SOURCES)
         list(APPEND TEST_SOURCES "${SOURCES}")
-        list(
-            FILTER
-            TEST_SOURCES
-            EXCLUDE
-            REGEX
-            "main.cpp")
+        list(FILTER TEST_SOURCES EXCLUDE REGEX "main.cpp")
     endif()
 endmacro()

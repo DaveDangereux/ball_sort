@@ -1,0 +1,16 @@
+CompileFlags:
+  Add:
+    - -Wall
+    - -Wextra
+    - -Wshadow
+    - -Wpedantic
+    - -Wunused
+    - -Wformat=2
+    - -Wcast-align
+    - -Wconversion
+    - -Wsign-conversion
+    - -Wnull-dereference
+    - -Wdouble-promotion
+    - -Wnon-virtual-dtor
+    - -Wold-style-cast
+    - -Woverloaded-virtual
