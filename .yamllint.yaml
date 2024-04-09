@@ -5,3 +5,5 @@ rules:
     present: false
   line-length:
     max: 100
+  truthy:
+    check-keys: false
