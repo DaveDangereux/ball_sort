@@ -79,6 +79,8 @@ function(target_add_sanitisers TARGET)
     list(JOIN SANITISERS "," LIST_OF_SANITISERS)
 
     if(LIST_OF_SANITISERS)
+        message(STATUS "Active sanitisers: ${LIST_OF_SANITISERS}")
+
         if(NOT MSVC)
             target_compile_options(${TARGET} PRIVATE -fno-omit-frame-pointer -fsanitize=${LIST_OF_SANITISERS})
             target_link_options(${TARGET} PRIVATE -fno-omit-frame-pointer -fsanitize=${LIST_OF_SANITISERS})
