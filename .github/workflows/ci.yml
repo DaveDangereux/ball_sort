@@ -13,7 +13,7 @@ jobs:
         with:
           arch: x64
 
-      - name: Run sscache-cache
+      - name: Setup sccache
         uses: mozilla-actions/sccache-action@v0.0.3
 
       - name: Test
