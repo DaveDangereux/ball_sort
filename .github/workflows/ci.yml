@@ -3,7 +3,16 @@ name: ci
 on: [push, pull_request]
 
 jobs:
-  TestWindows:
+  TestWindowsRelease:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test
+        run: scripts\windows\release_test.bat
+        shell: cmd
+
+  TestWindowsDebug:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
