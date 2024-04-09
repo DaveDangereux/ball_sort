@@ -1,4 +1,6 @@
 # ball_sort
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/davedangereux/ball_sort/ci.yml)
+
 A brute-force solver for the Ball Sorting Puzzle.
 
 ## What is a Ball Sorting Puzzle?
