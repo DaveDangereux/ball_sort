@@ -12,7 +12,6 @@ jobs:
         uses: TheMrMilchmann/setup-msvc-dev@v3
         with:
           arch: x64
-        #   toolset: 14.38.33130
 
       - name: Test
         run: scripts\windows\release_test.bat
@@ -22,6 +21,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup MSVC dev command prompt
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+          arch: x64
 
       - name: Test
         run: scripts\windows\debug_test.bat
