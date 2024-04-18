@@ -5,8 +5,6 @@
 
 int main(int argc, char* argv[])
 {
-    std::cout << "Hello, we got here!" << '\n';
-
     using ballsort::play_solution;
     using ballsort::Puzzle;
     using ballsort::solve;
