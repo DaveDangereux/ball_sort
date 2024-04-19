@@ -73,10 +73,22 @@ If you prefer to use the included build scripts, note that these depend on
 appropriate programs are installed and available on the system PATH, or remove
 the `-DCMAKE_COMPILER_LAUNCHER=` flag from the relevant script.
 
-## Known issues
-Although all illegal and many wasteful moves have been eliminated, the algorithm
-still makes a lot of unnecessary moves. This will be corrected in a future
-update.
+## Planned Improvements
+
+- Allow puzzle playback to be scrubbed back and forth with cursor keys
+- Eliminate wasteful moves
+- Support a wider range of tube sizes
+- Infer tube size from supplied puzzle data
+- Improve performance by optimising data structures
+- Add better UI
+- Draw puzzle with coloured balls and animated playback
+
+## Known Issues
+In Windows command prompt, the ANSI escape code to clear the screen seems to
+require some kind of intiialisation. Puzzle playback is therefore somewhat
+broken on Windows presently, but should be easy enough to fix. Although since I
+only have a Macbook, this might require a creative solution using Docker
+containers.
 
 ## Author
 [David Jordan](https://github.com/d4n93r3ux)
