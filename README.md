@@ -68,7 +68,7 @@ cmake --build build
 ```
 
 If you prefer to use the included build scripts, note that these depend on
-[sccache](https://github.com/mozilla/sccache)) for Windows and
+[sccache](https://github.com/mozilla/sccache) for Windows and
 [ccache](https://ccache.dev/) for Mac / Linux respectively. Either ensure the
 appropriate programs are installed and available on the system PATH, or remove
 the `-DCMAKE_COMPILER_LAUNCHER=` flag from the relevant script.
