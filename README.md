@@ -58,9 +58,24 @@ the necessary empty tubes to make the puzzle legal.
 ball_sort "4 6 8 5 1 2 1 4 5 9 9 5 2 8 9 9 4 8 3 3 3 2 7 6 7 7 1 3 5 2 6 6 8 4 1 7"
 ```
 
+## Building and Testing
+
+To build both main and test executables, run the following commands:
+
+```bash
+cmake -B build
+cmake --build build
+```
+
+If you prefer to use the included build scripts, note that these depend on
+[sccache](https://github.com/mozilla/sccache)) for Windows and
+[ccache](https://ccache.dev/) for Mac / Linux respectively. Either ensure the
+appropriate programs are installed and available on the system PATH, or remove
+the `-DCMAKE_COMPILER_LAUNCHER=` flag from the relevant script.
+
 ## Known issues
-Although all illegal and many wasteful moves have been eliminated, the
-algorithm still makes unnecessary moves. This will be corrected in a future
+Although all illegal and many wasteful moves have been eliminated, the algorithm
+still makes a lot of unnecessary moves. This will be corrected in a future
 update.
 
 ## Author
