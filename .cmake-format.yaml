@@ -1,0 +1,23 @@
+parse:
+  additional_commands:
+    add_target:
+      kwargs:
+        NAME: 1
+        TYPE: 1
+        SOURCES:
+          flags: [PUBLIC, PRIVATE]
+        INCLUDE_DIRS: "*"
+        LINK_LIBS: "*"
+    target_set_warnings:
+      kwargs:
+        TARGET: "*"
+        ENABLE: "*"
+        AS_ERRORS: "*"
+format:
+  line_width: 120
+  tab_size: 4
+  max_subgroups_hwrap: 3
+  max_pargs_hwrap: 5
+markup:
+  first_comment_is_literal: true
+  enable_markup: false

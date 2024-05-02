@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/coderabbit-overrides.v2.json
+---
+reviews:
+  high_level_summary: false
+  poem: false
+  auto_review:
+    enabled: true
+    base_branches:
+      - ".*"
+chat:
+  auto_reply: false
