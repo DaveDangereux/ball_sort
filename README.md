@@ -20,7 +20,7 @@ For a fun logic puzzle, try to determine the minimum number of colours required
 to create an unsolved puzzle configuration with no legal moves.
 
 ## Demo
-![A demo of the program running](https://github.com/D4n93r3ux/ball_sort/assets/61416292/cce0551c-dac6-4aad-b23d-ffd75374b5b5)
+![A demo of the program running](https://github.com/davedangereux/ball_sort/assets/61416292/cce0551c-dac6-4aad-b23d-ffd75374b5b5)
 
 *A short demo of the program running.*
 
@@ -91,4 +91,4 @@ only have a Macbook, this might require a creative solution using Docker
 containers.
 
 ## Author
-[David Jordan](https://github.com/d4n93r3ux)
+[David Jordan](https://github.com/davedangereux)
